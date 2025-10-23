@@ -20,8 +20,11 @@
     <p>Selecciona un juego:</p>
     <button id="btn-vocales">Aprender las Vocales</button>
     <button id="btn-imagenes">Identificar imágenes que empiecen por vocal</button>
+    <button id="btn-memoria-fonologica">Memoria Fonológica (Sílabas y Rimas)</button>
+    <button id="btn-cuentos">Cuentos Cortos con Preguntas</button>
   </div>
 
+  
   <!-- Juego 1: Aprender las vocales -->
   <div id="juego-vocales" style="display:none;">
     <h2>Aprende las Vocales</h2>
@@ -43,6 +46,25 @@
     <button id="btn-volver-imagenes">Volver al menú</button>
   </div>
 
-  <script src="script.js"></script>
+  <div id="juego-memoria-fonologica" style="display:none;">
+    <h2>Memoria Fonológica</h2>
+    <p>Puntaje: <span id="puntaje-memoria">0</span></p>
+    <p id="instruccion-memoria">Escucha y cuenta las sílabas o encuentra la rima</p>
+    <div id="opciones-container-memoria"></div>
+    <div id="mensaje-memoria"></div>
+    <button id="btn-volver-memoria">Volver al menú</button>
+  </div>
+    
+  <div id="juego-cuentos" style="display:none;">
+    <h2>Cuentos Cortos</h2>
+    <p>Puntaje: <span id="puntaje-cuentos">0</span></p>
+    <div id="cuento-container"></div>
+    <div id="pregunta-container"></div>
+    <div id="opciones-container-cuentos"></div>
+    <div id="mensaje-cuentos"></div>
+    <button id="btn-volver-cuentos">Volver al menú</button>
+  </div>
+
+  <script type= "module" src="script.js"></script>
 </body>
 </html>
