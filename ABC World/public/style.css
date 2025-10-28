@@ -95,6 +95,20 @@ button {
     box-shadow: 0 8px 0 #8C409F;
 }
 
+/* * AÑADIDO: Estilos para los botones "Volver al menú" en los juegos
+ * Usamos un color distinto y brillante (Verde Mar) para alta visibilidad
+ * en los fondos claros de las áreas de juego.
+ */
+#btn-volver-vocales, 
+#btn-volver-imagenes, 
+#btn-volver-memoria, 
+#btn-volver-cuentos {
+    background-color: #20B2AA; /* Verde Mar Brillante */
+    box-shadow: 0 8px 0 #1B8581; /* Sombra oscura */
+    margin-top: 30px; /* Darle más espacio debajo de los elementos de juego */
+}
+
+
 /* Efecto de Presión (Click) */
 button:active {
     box-shadow: 0 2px 0 var(--color-sombra);
