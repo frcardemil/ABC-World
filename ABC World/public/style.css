@@ -115,6 +115,36 @@ button:active {
     transform: translateY(6px); /* El botón se hunde */
 }
 
+/* ******************************************************
+ * AÑADIDO: Estilos de Opciones de Juego para Visibilidad
+ * Las opciones usan botones que necesitan un color de fondo
+ * y texto oscuro para contrastar con el fondo claro del juego.
+ * Esto corrige el problema de la visibilidad.
+ ****************************************************** */
+#opciones-container-vocales button,
+#opciones-container-memoria button,
+#opciones-container-cuentos button {
+    /* Texto oscuro para contraste */
+    color: var(--color-texto-oscuro); /* Cambia de blanco a #333333 */
+    /* Fondo con un color brillante y amigable para niños */
+    background-color: #FFD700; /* Amarillo Oro Brillante */
+    /* Sombra consistente y visible */
+    box-shadow: 0 8px 0 #C4A700; /* Sombra del Amarillo Oro */
+    /* Ajustar dimensiones para opciones, no botones de menú */
+    min-width: 100px;
+    padding: 15px 25px; 
+    font-size: 1.5em; 
+}
+
+#opciones-container-vocales button:active,
+#opciones-container-memoria button:active,
+#opciones-container-cuentos button:active {
+    /* Ajustar el efecto de presión para el nuevo color */
+    box-shadow: 0 2px 0 #C4A700;
+    transform: translateY(6px);
+}
+
+
 /* --- Contenedores de Juegos --- */
 .juego-container {
     padding: 20px;
