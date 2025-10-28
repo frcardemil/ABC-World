@@ -2,19 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Juegos Educativos</title>
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-    img { width: 150px; height: 150px; cursor: pointer; margin: 10px; border: 3px solid transparent; }
-    img.selected { border-color: green; }
-    #mensaje { font-size: 1.2em; margin-top: 20px; }
-    button { font-size: 1.2em; margin: 10px; padding: 10px 20px; cursor: pointer; }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <h1>Juegos Educativos</h1>
-
   <!-- Menú de selección -->
   <div id="menu">
     <p>Selecciona un juego:</p>
@@ -23,8 +16,6 @@
     <button id="btn-memoria-fonologica">Memoria Fonológica (Sílabas y Rimas)</button>
     <button id="btn-cuentos">Cuentos Cortos con Preguntas</button>
   </div>
-
-  
   <!-- Juego 1: Aprender las vocales -->
   <div id="juego-vocales" style="display:none;">
     <h2>Aprende las Vocales</h2>
@@ -35,7 +26,6 @@
     <div id="mensaje-vocales"></div>
     <button id="btn-volver-vocales">Volver al menú</button>
   </div>
-
   <!-- Juego 2: Identificar imágenes que empiecen por vocal -->
   <div id="juego-imagenes" style="display:none;">
     <h2>Identifica imágenes que empiecen por la vocal</h2>

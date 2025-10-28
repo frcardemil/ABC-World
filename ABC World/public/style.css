@@ -1,0 +1,135 @@
+/* Estilos generales para niños (4-6 años) */
+body {
+    font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    background-color: #f0f8ff; /* Azul claro amigable */
+    color: #333;
+    min-height: 100vh;
+}
+
+h1 {
+    color: #ff6347; /* Rojo/Naranja brillante */
+    font-size: 3em;
+    margin-bottom: 0.5em;
+    text-shadow: 2px 2px 0 #fff;
+}
+
+h2 {
+    color: #4682b4; /* Azul acero */
+    font-size: 2.2em;
+    margin-top: 0.5em;
+}
+
+p {
+    font-size: 1.5em;
+    color: #555;
+}
+
+/* --- Botones de Menú y Navegación --- */
+button {
+    font-size: 1.5em;
+    margin: 10px;
+    padding: 15px 30px;
+    cursor: pointer;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 5px 0 #555;
+    transition: all 0.1s;
+    min-width: 200px; /* Asegurar que sean grandes y fáciles de presionar */
+}
+
+button:active {
+    box-shadow: 0 1px 0 #555;
+    transform: translateY(4px);
+}
+
+#menu button {
+    background-color: #3cb371; /* Verde brillante para el menú principal */
+    box-shadow: 0 5px 0 #2e8b57;
+}
+
+#btn-volver-vocales, #btn-volver-imagenes {
+    background-color: #ffa500; /* Naranja para botones de volver */
+    box-shadow: 0 5px 0 #cc8400;
+}
+
+/* --- Juego de Vocales (Botones de Opciones) --- */
+#opciones-container-vocales button {
+    font-size: 3.5em; /* Vocales grandes y claras */
+    width: 80px;
+    height: 80px;
+    padding: 0;
+    margin: 15px;
+    background-color: #8a2be2; /* Azul violeta para las opciones */
+    box-shadow: 0 5px 0 #6a1aae;
+}
+
+/* --- Contenedores de Imágenes y Mensajes --- */
+#imagen-container-vocales {
+    min-height: 200px;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#imagen-container-vocales img {
+    width: 200px;
+    height: 200px;
+    border: 5px solid #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#imagenes-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 30px 0;
+}
+
+#imagenes-container img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    border: 5px solid #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+#imagenes-container img:hover {
+    transform: scale(1.05);
+}
+
+#imagenes-container img.selected {
+    border-color: #3cb371; /* Borde verde al seleccionar (aunque el script no usa .selected) */
+    box-shadow: 0 0 15px #3cb371;
+}
+
+/* Mensajes de retroalimentación */
+#mensaje-vocales, #mensaje-imagenes {
+    font-size: 2em;
+    font-weight: bold;
+    margin-top: 25px;
+    min-height: 40px; /* Evita que el diseño salte al aparecer el mensaje */
+}
+
+/* Estilo para la vocal actual del juego 2 */
+#vocal-actual-imagenes {
+    color: #ff6347;
+    font-size: 1.1em;
+}
+
+/* Estilo para el puntaje */
+.puntaje {
+    font-size: 1.8em;
+    color: #ff6347;
+    font-weight: bold;
+}
