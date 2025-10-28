@@ -89,26 +89,26 @@ function reproducirTTS(texto, velocidad = 0.8, vozSeleccionada = null) {
 
 // Datos para juego 1: vocales con imágenes
 const vocales = [
-  { letra: 'A', imagen: '/images/a.png' },
-  { letra: 'E', imagen: '/images/e.png' },
-  { letra: 'I', imagen: '/images/i.png' },
-  { letra: 'O', imagen: '/images/o.png' },
-  { letra: 'U', imagen: '/images/u.png' },
+  { letra: 'A', imagen: 'images/a.png' },
+  { letra: 'E', imagen: 'images/e.png' },
+  { letra: 'I', imagen: 'images/i.png' },
+  { letra: 'O', imagen: 'images/o.png' },
+  { letra: 'U', imagen: 'images/u.png' },
 ];
 
 // Datos para juego 2: imágenes con palabra y vocal inicial
 const imagenesJuego2 = [
-  { palabra: 'Araña', imagen: '/images/imagenesJuego2/araña.png', vocal: 'A' },
-  { palabra: 'Avión', imagen: '/images/imagenesJuego2/avion.png', vocal: 'A' },
-  { palabra: 'Elefante', imagen: '/images/imagenesJuego2/elefante.png', vocal: 'E' },
-  {palabra: 'Escoba', imagen: '/images/imagenesJuego2/escoba.png', vocal: 'E' },
-  { palabra: 'Isla', imagen: '/images/imagenesJuego2/isla.png', vocal: 'I' },
-  { palabra: 'Iglú', imagen: '/images/imagenesJuego2/iglú.png', vocal : 'I' },
-  { palabra: 'Oso', imagen: '/images/imagenesJuego2/oso.png', vocal: 'O' },
-  { palabra: 'Ojo', imagen: '/images/imagenesJuego2/ojo.png', vocal: 'O' },
-  { palabra: 'Uva', imagen: '/images/imagenesJuego2/uva.png', vocal: 'U' },
-  { palabra: 'Casa', imagen: '/images/imagenesJuego2/casa.png', vocal: 'A' }, // ejemplo extra que no empieza por vocal A
-  { palabra: 'Perro', imagen: '/images/imagenesJuego2/perro.png', vocal: 'E' }, // ejemplo extra
+  { palabra: 'Araña', imagen: 'images/imagenesJuego2/araña.png', vocal: 'A' },
+  { palabra: 'Avión', imagen: 'images/imagenesJuego2/avion.png', vocal: 'A' },
+  { palabra: 'Elefante', imagen: 'images/imagenesJuego2/elefante.png', vocal: 'E' },
+  {palabra: 'Escoba', imagen: 'images/imagenesJuego2/escoba.png', vocal: 'E' },
+  { palabra: 'Isla', imagen: 'images/imagenesJuego2/isla.png', vocal: 'I' },
+  { palabra: 'Iglú', imagen: 'images/imagenesJuego2/iglú.png', vocal : 'I' },
+  { palabra: 'Oso', imagen: 'images/imagenesJuego2/oso.png', vocal: 'O' },
+  { palabra: 'Ojo', imagen: 'images/imagenesJuego2/ojo.png', vocal: 'O' },
+  { palabra: 'Uva', imagen: 'images/imagenesJuego2/uva.png', vocal: 'U' },
+  { palabra: 'Casa', imagen: 'images/imagenesJuego2/casa.png', vocal: 'A' }, // ejemplo extra que no empieza por vocal A
+  { palabra: 'Perro', imagen: 'images/imagenesJuego2/perro.png', vocal: 'E' }, // ejemplo extra
 ];
 
 const datosMemoria = [
