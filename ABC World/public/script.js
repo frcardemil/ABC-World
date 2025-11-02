@@ -111,12 +111,19 @@ const imagenesJuego2 = [
   { palabra: 'Perro', imagen: 'images/imagenesJuego2/perro.png', vocal: 'E' }, // ejemplo extra
 ];
 
-const datosMemoria = [
-  { tipo: 'silabas', palabra: 'Elefante', silabas: 4 },
+const datosMemoriaSimple = [
   { tipo: 'silabas', palabra: 'Casa', silabas: 2 },
-  { tipo: 'rimas', palabra: 'Gato', rimaCorrecta: 'Pato', opciones: ['Pato', 'Sol', 'Luna'] },
-  { tipo: 'rimas', palabra: 'Sol', rimaCorrecta: 'Sol', opciones: ['Luna', 'Sol', 'Casa'] },
+  { tipo: 'silabas', palabra: 'Sol', silabas: 1},
+  { tipo: 'silabas', palabra: 'Zapato', silabas: 3}
 ];
+const datosMemoriaMedio = [
+    { tipo: 'silabas', palabra: 'Elefante', silabas: 4 }
+]
+
+const datosMemoriaAvanzado = [
+  { tipo: 'rimas', palabra: 'Gato', rimaCorrecta: 'Pato', opciones: ['Pato', 'Sol', 'Luna'] },
+  { tipo: 'rimas', palabra: 'Sol', rimaCorrecta: 'Sol', opciones: ['Luna', 'Sol', 'Casa'] }
+]
 
 const cuentos = [
   {
@@ -148,8 +155,12 @@ let puntajeMemoria = 0;
 let cuentoActual = null;
 let preguntaActualIndex = 0;
 let puntajeCuentos = 0;
-
-
+let aciertosConsecutivosVocales = 0;
+let opcionesVocales = 5;
+let aciertosConsecutivosImagenes = 0;
+let numImagenes = 4; 
+let aciertosConsecutivosMemoria = 0;
+let nivelMemoria = 1;
 // Función para reproducir palabra con TTS (Juego 3)
 function reproducirAudioPalabra(palabra) {
   reproducirTTS(palabra, 0.6);  // Lento para claridad
@@ -215,47 +226,52 @@ async function iniciarJuegoVocales() {
 
 function nuevaRondaVocales() {
   vocalActual = vocales[Math.floor(Math.random() * vocales.length)];
-
   const imagenContainer = document.getElementById('imagen-container-vocales');
   imagenContainer.innerHTML = `<img src="${vocalActual.imagen}" alt="Vocal" />`;
-
   const opcionesContainer = document.getElementById('opciones-container-vocales');
   opcionesContainer.innerHTML = '';
+  // Seleccionar letras basadas en dificultad
+  let letrasSeleccionadas = [vocalActual.letra];  // Incluir la correcta
+  const letrasDisponibles = vocales.map(v => v.letra).filter(l => l !== vocalActual.letra);  // Otras letras
+  while (letrasSeleccionadas.length < opcionesVocales && letrasDisponibles.length > 0) {
+    const randomIndex = Math.floor(Math.random() * letrasDisponibles.length);
+    const letraRandom = letrasDisponibles.splice(randomIndex, 1)[0];  // Remover para evitar duplicados
+    letrasSeleccionadas.push(letraRandom);
+  }
 
-  vocales.forEach(vocal => {
+   letrasSeleccionadas.sort(() => Math.random() - 0.5);  // Mezclar
+  // Crear botones con las letras seleccionadas
+  letrasSeleccionadas.forEach(letra => {
+    const vocalObj = vocales.find(v => v.letra === letra);  // Encontrar el objeto vocal
     const btn = document.createElement('button');
-    btn.textContent = vocal.letra;
+    btn.textContent = vocalObj.letra;
     btn.style.fontSize = '2em';
     btn.style.margin = '5px';
-    btn.onclick = () => validarRespuestaVocales(vocal.letra);
+    btn.onclick = () => validarRespuestaVocales(vocalObj.letra);
     opcionesContainer.appendChild(btn);
   });
-
   document.getElementById('mensaje-vocales').textContent = '';
+  setTimeout(() => reproducirSonidoVocal(vocalActual.letra), 500);
 }
 
 async function validarRespuestaVocales(letraSeleccionada) {
-  // Validación local simple (sin llamar al servidor)
   const esCorrecto = letraSeleccionada.toUpperCase() === vocalActual.letra.toUpperCase();
-
   const mensaje = document.getElementById('mensaje-vocales');
   if (esCorrecto) {
-    puntajeVocales++;
+    aciertosConsecutivosVocales++;
     document.getElementById('puntaje-vocales').textContent = puntajeVocales;
-    await guardarPuntaje('vocales', puntajeVocales);
+    if (aciertosConsecutivosVocales >= 5) opcionesVocales = Math.max(2, opcionesVocales);  // Mínimo 2
+    else if (aciertosConsecutivosVocales >= 3) opcionesVocales = 3;
     mensaje.textContent = '¡Correcto! 🎉';
     mensaje.style.color = 'green';
   } else {
+    aciertosConsecutivosVocales = 0;
+    opcionesVocales = 5;  // Reset
     mensaje.textContent = `Incorrecto. La respuesta correcta es ${vocalActual.letra}`;
     mensaje.style.color = 'red';
   }
-
   setTimeout(nuevaRondaVocales, 2000);
 }
-document.getElementById('btn-volver-vocales').onclick = async () => {
-  await guardarPuntaje('vocales', puntajeVocales);  // Guardar final
-  mostrarMenu();
-};
 
 // --- Juego 2: Identificar imágenes que empiecen por vocal ---
 
@@ -285,8 +301,7 @@ function nuevaRondaImagenes() {
     opciones.push(imagenesCorrectas[Math.floor(Math.random() * imagenesCorrectas.length)]);
   }
 
-  // Añadir imágenes aleatorias hasta tener 4 opciones
-  while (opciones.length < 4) {
+  while (opciones.length < numImagenes) {
     const imgRandom = imagenesJuego2[Math.floor(Math.random() * imagenesJuego2.length)];
     if (!opciones.includes(imgRandom)) {
       opciones.push(imgRandom);
@@ -313,6 +328,14 @@ function nuevaRondaImagenes() {
 }
 
 function validarRespuestaImagenes(imagenSeleccionada) {
+  if (imagenSeleccionada.vocal === vocalActualJuego2) {
+    aciertosConsecutivosImagenes++;
+    if (aciertosConsecutivosImagenes >= 5) numImagenes = 8;
+    else if (aciertosConsecutivosImagenes >= 3) numImagenes = 6;
+  } else {
+    aciertosConsecutivosImagenes = 0;
+    numImagenes = 4;
+  }
   const mensaje = document.getElementById('mensaje-imagenes');
   if (imagenSeleccionada.vocal === vocalActualJuego2) {
     puntajeImagenes++;
@@ -339,16 +362,16 @@ function iniciarJuegoMemoria() {
   nuevaRondaMemoria();
 }
 function nuevaRondaMemoria() {
-  datoActualMemoria = datosMemoria[Math.floor(Math.random() * datosMemoria.length)];
-  const instruccion = datoActualMemoria.tipo === 'silabas' 
-    ? `Cuenta las sílabas de "${datoActualMemoria.palabra}"` 
-    : `¿Qué palabra rima con "${datoActualMemoria.palabra}"?`;
-  document.getElementById('instruccion-memoria').textContent = instruccion;
+  let datosActuales = datosMemoriaSimple;
+  if (nivelMemoria === 2) datosActuales = datosMemoriaMedio;
+  else if (nivelMemoria === 3) datosActuales = datosMemoriaAvanzado;
+  
+  datoActualMemoria = datosActuales[Math.floor(Math.random() * datosActuales.length)];
   
   const opcionesContainer = document.getElementById('opciones-container-memoria');
   opcionesContainer.innerHTML = '';
   if (datoActualMemoria.tipo === 'silabas') {
-    [2, 3, 4, 5].forEach(num => {
+    [1,2, 3, 4, 5].forEach(num => {
       const btn = document.createElement('button');
       btn.textContent = num;
       btn.onclick = () => validarRespuestaMemoria(num);
@@ -366,20 +389,30 @@ function nuevaRondaMemoria() {
   setTimeout(() => reproducirAudioPalabra(datoActualMemoria.palabra), 500);
 }
 
+
 function validarRespuestaMemoria(respuesta) {
-  const esCorrecto = datoActualMemoria.tipo === 'silabas' 
-    ? respuesta === datoActualMemoria.silabas 
-    : respuesta === datoActualMemoria.rimaCorrecta;
+  let esCorrecto = false;
+  if (datoActualMemoria.tipo === 'silabas') {
+    esCorrecto = Number(respuesta) === datoActualMemoria.silabas; 
+  } else {
+    esCorrecto = respuesta === datoActualMemoria.rimaCorrecta;  
+  }
+  
   const mensaje = document.getElementById('mensaje-memoria');
   if (esCorrecto) {
-    puntajeMemoria++;
+    aciertosConsecutivosMemoria++;
     document.getElementById('puntaje-memoria').textContent = puntajeMemoria;
+    if (aciertosConsecutivosMemoria >= 5) nivelMemoria = 3;
+    else if (aciertosConsecutivosMemoria >= 3) nivelMemoria = 2;
     mensaje.textContent = '¡Correcto! 🎉';
     mensaje.style.color = 'green';
   } else {
+    aciertosConsecutivosMemoria = 0;
+    nivelMemoria = 1;  // Reset
     mensaje.textContent = 'Incorrecto. Intenta de nuevo.';
     mensaje.style.color = 'red';
   }
+  
   setTimeout(nuevaRondaMemoria, 2000);
 }
 
