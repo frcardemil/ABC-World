@@ -98,12 +98,12 @@ const vocales = [
 
 // Datos para juego 2: imágenes con palabra y vocal inicial
 const imagenesJuego2 = [
-  { palabra: 'Araña', imagen: 'images/imagenesJuego2/araña.png', vocal: 'A' },
+  { palabra: 'Araña', imagen: 'images/imagenesJuego2/arana.png', vocal: 'A' },
   { palabra: 'Avión', imagen: 'images/imagenesJuego2/avion.png', vocal: 'A' },
   { palabra: 'Elefante', imagen: 'images/imagenesJuego2/elefante.png', vocal: 'E' },
   {palabra: 'Escoba', imagen: 'images/imagenesJuego2/escoba.png', vocal: 'E' },
   { palabra: 'Isla', imagen: 'images/imagenesJuego2/isla.png', vocal: 'I' },
-  { palabra: 'Iglú', imagen: 'images/imagenesJuego2/iglú.png', vocal : 'I' },
+  { palabra: 'Iglú', imagen: 'images/imagenesJuego2/iglu.png', vocal : 'I' },
   { palabra: 'Oso', imagen: 'images/imagenesJuego2/oso.png', vocal: 'O' },
   { palabra: 'Ojo', imagen: 'images/imagenesJuego2/ojo.png', vocal: 'O' },
   { palabra: 'Uva', imagen: 'images/imagenesJuego2/uva.png', vocal: 'U' },
