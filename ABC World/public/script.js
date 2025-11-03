@@ -98,12 +98,12 @@ const vocales = [
 
 // Datos para juego 2: imágenes con palabra y vocal inicial
 const imagenesJuego2 = [
-  { palabra: 'Araña', imagen: 'images/imagenesJuego2/arana.png', vocal: 'A' },
+  { palabra: 'Araña', imagen: 'images/imagenesJuego2/araña.png', vocal: 'A' },
   { palabra: 'Avión', imagen: 'images/imagenesJuego2/avion.png', vocal: 'A' },
   { palabra: 'Elefante', imagen: 'images/imagenesJuego2/elefante.png', vocal: 'E' },
   {palabra: 'Escoba', imagen: 'images/imagenesJuego2/escoba.png', vocal: 'E' },
   { palabra: 'Isla', imagen: 'images/imagenesJuego2/isla.png', vocal: 'I' },
-  { palabra: 'Iglú', imagen: 'images/imagenesJuego2/iglu.png', vocal : 'I' },
+  { palabra: 'Iglú', imagen: 'images/imagenesJuego2/iglú.png', vocal : 'I' },
   { palabra: 'Oso', imagen: 'images/imagenesJuego2/oso.png', vocal: 'O' },
   { palabra: 'Ojo', imagen: 'images/imagenesJuego2/ojo.png', vocal: 'O' },
   { palabra: 'Uva', imagen: 'images/imagenesJuego2/uva.png', vocal: 'U' },
@@ -111,62 +111,29 @@ const imagenesJuego2 = [
   { palabra: 'Perro', imagen: 'images/imagenesJuego2/perro.png', vocal: 'E' }, // ejemplo extra
 ];
 
-// Datos para juego 3: memoria fonológica
 const datosMemoriaSimple = [
   { tipo: 'silabas', palabra: 'Casa', silabas: 2 },
   { tipo: 'silabas', palabra: 'Sol', silabas: 1},
-  { tipo: 'silabas', palabra: 'Zapato', silabas: 3},
-  { tipo: 'silabas', palabra: 'Pez', silabas: 1 },
-  { tipo: 'silabas', palabra: 'Perro', silabas: 2 },
-  { tipo: 'silabas', palabra: 'Gato', silabas: 2 },
-  { tipo: 'silabas', palabra: 'Pan', silabas: 1 },
-  { tipo: 'silabas', palabra: 'Pato', silabas: 2 },
-  { tipo: 'silabas', palabra: 'Luna', silabas: 2 },
-  { tipo: 'silabas', palabra: 'Mesa', silabas: 2 },
-  { tipo: 'silabas', palabra: 'Ojo', silabas: 2 },
-  { tipo: 'silabas', palabra: 'Tren', silabas: 1 },
-  { tipo: 'silabas', palabra: 'Flor', silabas: 1 },
-  { tipo: 'silabas', palabra: 'Agua', silabas: 2 },
-  { tipo: 'silabas', palabra: 'Lápiz', silabas: 2 }
+  { tipo: 'silabas', palabra: 'Zapato', silabas: 3}
 ];
 const datosMemoriaMedio = [
-    { tipo: 'silabas', palabra: 'Elefante', silabas: 4 },
-    { tipo: 'silabas', palabra: 'Pelota', silabas: 3 },
-    { tipo: 'silabas', palabra: 'Mariposa', silabas: 4 },
-    { tipo: 'silabas', palabra: 'Tomate', silabas: 3 },
-    { tipo: 'silabas', palabra: 'Dinosaurio', silabas: 5 },
-    { tipo: 'silabas', palabra: 'Caballo', silabas: 3 },
-    { tipo: 'silabas', palabra: 'Bicicleta', silabas: 5 },
-    { tipo: 'silabas', palabra: 'Cuchara', silabas: 3 },
-    { tipo: 'silabas', palabra: 'Chocolate', silabas: 4 },
-    { tipo: 'silabas', palabra: 'Manzana', silabas: 3 },
-    { tipo: 'silabas', palabra: 'Mantequilla', silabas: 4 },
-    { tipo: 'silabas', palabra: 'Matemáticas', silabas: 5 }
+    { tipo: 'silabas', palabra: 'Elefante', silabas: 4 }
 ]
 
 const datosMemoriaAvanzado = [
   { tipo: 'rimas', palabra: 'Gato', rimaCorrecta: 'Pato', opciones: ['Pato', 'Sol', 'Luna'] },
-  { tipo: 'rimas', palabra: 'Sol', rimaCorrecta: 'Sol', opciones: ['Luna', 'Sol', 'Casa'] },
-  { tipo: 'rimas', palabra: 'Luna', rimaCorrecta: 'Cuna', opciones: ['Cuna', 'Perro', 'Gato'] },
-  { tipo: 'rimas', palabra: 'Ratón', rimaCorrecta: 'Botón', opciones: ['Botón', 'Casa', 'Pez'] },
-  { tipo: 'rimas', palabra: 'Casa', rimaCorrecta: 'Masa', opciones: ['Masa', 'Avión', 'Luna'] },
-  { tipo: 'rimas', palabra: 'Oveja', rimaCorrecta: 'Abeja', opciones: ['Abeja', 'Queso', 'Pato'] },
-  { tipo: 'rimas', palabra: 'Queso', rimaCorrecta: 'Hueso', opciones: ['Hueso', 'Ratón', 'Silla'] },
-  { tipo: 'rimas', palabra: 'Silla', rimaCorrecta: 'Ardilla', opciones: ['Ardilla', 'Ojo', 'Zapato'] },
-  { tipo: 'rimas', palabra: 'Pera', rimaCorrecta: 'Tetera', opciones: ['Tetera', 'Sol', 'Mano'] },
-  { tipo: 'rimas', palabra: 'Estrella', rimaCorrecta: 'Botella', opciones: ['Botella', 'León', 'Agua'] }
-]
+  { tipo: 'rimas', palabra: 'Sol', rimaCorrecta: 'Sol', opciones: ['Luna', 'Sol', 'Casa'] }
+];
 
-// Datos para juego 4: cuentos cortos con preguntas
-const cuentos = [
+const cuentosSimple = [
   {
     titulo: 'El Sombrero Rojo',
     texto: 'Había una vez una niña con un sombrero rojo. Caminó por el bosque y encontró un conejo.',
     preguntas: [
       { pregunta: '¿Qué color era el sombrero?', opciones: ['Rojo', 'Azul', 'Verde'], correcta: 'Rojo' },
-      { pregunta: '¿Qué encontró la niña?', opciones: ['Un conejo', 'Un árbol', 'Una casa'], correcta: 'Un conejo' }
+      { pregunta: '¿Qué encontró la niña?', opciones: ['Un conejo', 'Un árbol', 'Una casa'], correcta: 'Un conejo' },
     ]
-  },
+  },  
   {
     titulo: 'El Perro y el Gato',
     texto: 'El perro ladró al gato. El gato maulló y corrió.',
@@ -176,6 +143,38 @@ const cuentos = [
     ]
   }
 ];
+
+const cuentosMedio = [
+  {
+    titulo: 'El Naufrago',
+    texto: 'Un naufrago se encontraba perdido en el mar. Hasta que llego a una isla.',
+    preguntas: [
+      { pregunta: '¿Dónde estaba el naufrago?', opciones: ['En el mar', 'En la calle', 'En su casa'], correcta: 'En el mar'},
+      { pregunta: 'El naufrago llego a una ', opciones: ['Casa', 'Isla', 'Ciudad'], correcta: 'Isla'},
+    ]
+
+  },
+  {
+    titulo: 'Dragón durmiente',
+    texto: 'Un hada estaba paseando por el bosque cuando de pronto a lo lejos ve un dragón durmiendo y se alejo del lugar.',
+    preguntas: [
+      { pregunta: '¿Quién estaba durmiendo?', opciones: ['El dragón', 'El hada', 'El bosque'], correcta: 'El dragón'},
+      { pregunta: '¿Por dónde paso el hada?', opciones: ['Por el bosque', 'Por el cielo', 'Por un dragón'], correcta: 'Por el bosque'},
+    ]
+  }
+];
+
+const cuentosAvanzado = [
+  {
+    titulo: 'La Aventura en el Bosque',
+    texto: 'Un niño encontró un mapa en el bosque. Siguió el camino y llegó a una cueva llena de tesoros.',
+    preguntas: [
+      { pregunta: '¿Qué encontró el niño?', opciones: ['Un mapa', 'Un libro', 'Un juguete'], correcta: 'Un mapa' },
+      { pregunta: '¿Dónde llegó?', opciones: ['A una cueva', 'A una casa', 'A un río'], correcta: 'A una cueva' }
+    ]
+  }
+];
+
 
 
 // Variables para juegos
@@ -194,6 +193,9 @@ let aciertosConsecutivosImagenes = 0;
 let numImagenes = 4; 
 let aciertosConsecutivosMemoria = 0;
 let nivelMemoria = 1;
+let aciertosConsecutivosCuentos = 0;
+let nivelCuentos = 1; 
+
 // Función para reproducir palabra con TTS (Juego 3)
 function reproducirAudioPalabra(palabra) {
   reproducirTTS(palabra, 0.6);  // Lento para claridad
@@ -291,6 +293,7 @@ async function validarRespuestaVocales(letraSeleccionada) {
   const esCorrecto = letraSeleccionada.toUpperCase() === vocalActual.letra.toUpperCase();
   const mensaje = document.getElementById('mensaje-vocales');
   if (esCorrecto) {
+    puntajeVocales++;
     aciertosConsecutivosVocales++;
     document.getElementById('puntaje-vocales').textContent = puntajeVocales;
     if (aciertosConsecutivosVocales >= 5) opcionesVocales = Math.max(2, opcionesVocales);  // Mínimo 2
@@ -433,11 +436,12 @@ function validarRespuestaMemoria(respuesta) {
   
   const mensaje = document.getElementById('mensaje-memoria');
   if (esCorrecto) {
+    puntajeMemoria++;
     aciertosConsecutivosMemoria++;
     document.getElementById('puntaje-memoria').textContent = puntajeMemoria;
     if (aciertosConsecutivosMemoria >= 5) nivelMemoria = 3;
     else if (aciertosConsecutivosMemoria >= 3) nivelMemoria = 2;
-    mensaje.textContent = '¡Correcto! 🎉';
+    mensaje.textContent = '¡Correcto! 🎉';S
     mensaje.style.color = 'green';
   } else {
     aciertosConsecutivosMemoria = 0;
@@ -461,9 +465,15 @@ function iniciarJuegoCuentos() {
   nuevaRondaCuentos();
 }
 function nuevaRondaCuentos() {
-  cuentoActual = cuentos[Math.floor(Math.random() * cuentos.length)];
+  let cuentosActuales = cuentosSimple;
+  if (nivelCuentos === 2) cuentosActuales = cuentosMedio;
+  else if (nivelCuentos === 3) cuentosActuales = cuentosAvanzado;
+  
+  cuentoActual = cuentosActuales[Math.floor(Math.random() * cuentosActuales.length)];
   preguntaActualIndex = 0;
+  
   document.getElementById('cuento-container').innerHTML = `<h3>${cuentoActual.titulo}</h3><p>${cuentoActual.texto}</p>`;
+  
   setTimeout(() => reproducirAudioCuento(cuentoActual.texto), 500);
   mostrarPreguntaCuentos();
 }
@@ -484,22 +494,32 @@ function mostrarPreguntaCuentos() {
     btn.onclick = () => validarRespuestaCuentos(opcion);
     opcionesContainer.appendChild(btn);
   });
+
   document.getElementById('mensaje-cuentos').textContent = '';
   setTimeout(() => reproducirAudioPregunta(pregunta.pregunta), 500);
 }
 function validarRespuestaCuentos(respuesta) {
+  if (!cuentoActual || preguntaActualIndex >= cuentoActual.preguntas.length) return;  // Seguridad
+  
   const pregunta = cuentoActual.preguntas[preguntaActualIndex];
-  const esCorrecto = respuesta === pregunta.correcta;
+  const esCorrecto = respuesta === pregunta.correcta;  // Comparación string
+  
   const mensaje = document.getElementById('mensaje-cuentos');
   if (esCorrecto) {
     puntajeCuentos++;
+    aciertosConsecutivosCuentos++;
     document.getElementById('puntaje-cuentos').textContent = puntajeCuentos;
+    if (aciertosConsecutivosCuentos >= 4) nivelCuentos = 3;
+    else if (aciertosConsecutivosCuentos >= 2) nivelCuentos = 2;
     mensaje.textContent = '¡Correcto! 🎉';
     mensaje.style.color = 'green';
   } else {
+    aciertosConsecutivosCuentos = 0;
+    nivelCuentos--; // Reset
     mensaje.textContent = `Incorrecto. La respuesta correcta es: ${pregunta.correcta}`;
     mensaje.style.color = 'red';
   }
+  
   preguntaActualIndex++;
   setTimeout(mostrarPreguntaCuentos, 2000);
 }
