@@ -111,20 +111,53 @@ const imagenesJuego2 = [
   { palabra: 'Perro', imagen: 'images/imagenesJuego2/perro.png', vocal: 'E' }, // ejemplo extra
 ];
 
+// Datos para juego 3: memoria fonológica
 const datosMemoriaSimple = [
   { tipo: 'silabas', palabra: 'Casa', silabas: 2 },
   { tipo: 'silabas', palabra: 'Sol', silabas: 1},
-  { tipo: 'silabas', palabra: 'Zapato', silabas: 3}
+  { tipo: 'silabas', palabra: 'Zapato', silabas: 3},
+  { tipo: 'silabas', palabra: 'Pez', silabas: 1 },
+  { tipo: 'silabas', palabra: 'Perro', silabas: 2 },
+  { tipo: 'silabas', palabra: 'Gato', silabas: 2 },
+  { tipo: 'silabas', palabra: 'Pan', silabas: 1 },
+  { tipo: 'silabas', palabra: 'Pato', silabas: 2 },
+  { tipo: 'silabas', palabra: 'Luna', silabas: 2 },
+  { tipo: 'silabas', palabra: 'Mesa', silabas: 2 },
+  { tipo: 'silabas', palabra: 'Ojo', silabas: 2 },
+  { tipo: 'silabas', palabra: 'Tren', silabas: 1 },
+  { tipo: 'silabas', palabra: 'Flor', silabas: 1 },
+  { tipo: 'silabas', palabra: 'Agua', silabas: 2 },
+  { tipo: 'silabas', palabra: 'Lápiz', silabas: 2 }
 ];
 const datosMemoriaMedio = [
-    { tipo: 'silabas', palabra: 'Elefante', silabas: 4 }
+    { tipo: 'silabas', palabra: 'Elefante', silabas: 4 },
+    { tipo: 'silabas', palabra: 'Pelota', silabas: 3 },
+    { tipo: 'silabas', palabra: 'Mariposa', silabas: 4 },
+    { tipo: 'silabas', palabra: 'Tomate', silabas: 3 },
+    { tipo: 'silabas', palabra: 'Dinosaurio', silabas: 5 },
+    { tipo: 'silabas', palabra: 'Caballo', silabas: 3 },
+    { tipo: 'silabas', palabra: 'Bicicleta', silabas: 5 },
+    { tipo: 'silabas', palabra: 'Cuchara', silabas: 3 },
+    { tipo: 'silabas', palabra: 'Chocolate', silabas: 4 },
+    { tipo: 'silabas', palabra: 'Manzana', silabas: 3 },
+    { tipo: 'silabas', palabra: 'Mantequilla', silabas: 4 },
+    { tipo: 'silabas', palabra: 'Matemáticas', silabas: 5 }
 ]
 
 const datosMemoriaAvanzado = [
   { tipo: 'rimas', palabra: 'Gato', rimaCorrecta: 'Pato', opciones: ['Pato', 'Sol', 'Luna'] },
-  { tipo: 'rimas', palabra: 'Sol', rimaCorrecta: 'Sol', opciones: ['Luna', 'Sol', 'Casa'] }
+  { tipo: 'rimas', palabra: 'Sol', rimaCorrecta: 'Sol', opciones: ['Luna', 'Sol', 'Casa'] },
+  { tipo: 'rimas', palabra: 'Luna', rimaCorrecta: 'Cuna', opciones: ['Cuna', 'Perro', 'Gato'] },
+  { tipo: 'rimas', palabra: 'Ratón', rimaCorrecta: 'Botón', opciones: ['Botón', 'Casa', 'Pez'] },
+  { tipo: 'rimas', palabra: 'Casa', rimaCorrecta: 'Masa', opciones: ['Masa', 'Avión', 'Luna'] },
+  { tipo: 'rimas', palabra: 'Oveja', rimaCorrecta: 'Abeja', opciones: ['Abeja', 'Queso', 'Pato'] },
+  { tipo: 'rimas', palabra: 'Queso', rimaCorrecta: 'Hueso', opciones: ['Hueso', 'Ratón', 'Silla'] },
+  { tipo: 'rimas', palabra: 'Silla', rimaCorrecta: 'Ardilla', opciones: ['Ardilla', 'Ojo', 'Zapato'] },
+  { tipo: 'rimas', palabra: 'Pera', rimaCorrecta: 'Tetera', opciones: ['Tetera', 'Sol', 'Mano'] },
+  { tipo: 'rimas', palabra: 'Estrella', rimaCorrecta: 'Botella', opciones: ['Botella', 'León', 'Agua'] }
 ]
 
+// Datos para juego 4: cuentos cortos con preguntas
 const cuentos = [
   {
     titulo: 'El Sombrero Rojo',
