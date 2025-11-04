@@ -21,6 +21,7 @@ body {
     margin: 0;
     color: var(--color-texto-oscuro);
     min-height: 100vh;
+    box-sizing: border-box; /* Asegura que el padding no desborde */
 }
 
 h1 {
@@ -44,9 +45,46 @@ p {
     font-weight: bold;
 }
 
+/* --- NUEVO: Pantalla de Selección de Usuario --- */
+#pantalla-seleccion-usuario {
+    display: flex; /* Cambiado a flex para centrar */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 90vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#avatar-container {
+    display: flex;
+    flex-wrap: wrap; /* Para que quepan en tablets */
+    justify-content: center;
+    gap: 25px; /* Espacio entre avatares */
+    margin-top: 20px;
+    max-width: 800px;
+}
+
+.avatar-emoji {
+    font-size: 6em; /* Emojis bien grandes */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%; /* Círculos */
+    border: 8px solid #fff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.avatar-emoji:hover, .avatar-emoji:active {
+    transform: scale(1.15); /* Efecto de selección */
+    border-color: #FFD700; /* Borde dorado al seleccionar */
+}
+
 /* --- Contenedor del Menú Principal --- */
 #menu {
-    display: flex;
+    /* display: flex; (Ya está en el CSS original) */
     flex-direction: column;
     align-items: center;
     gap: 20px; /* Espacio entre los botones */
@@ -57,6 +95,16 @@ p {
     max-width: 600px;
     margin: 20px auto;
 }
+
+/* NUEVO: Saludo en el menú */
+#saludo-usuario {
+    font-size: 3.5em; /* Grande */
+    font-weight: bold;
+    color: var(--color-texto-oscuro);
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 0 #fff;
+}
+
 
 /* --- Botones Generales (Menú y Opciones) --- */
 button {
@@ -95,17 +143,15 @@ button {
     box-shadow: 0 8px 0 #8C409F;
 }
 
-/* * AÑADIDO: Estilos para los botones "Volver al menú" en los juegos
- * Usamos un color distinto y brillante (Verde Mar) para alta visibilidad
- * en los fondos claros de las áreas de juego.
- */
+/* Estilos para los botones "Volver al menú" y "Cambiar Usuario" */
 #btn-volver-vocales, 
 #btn-volver-imagenes, 
 #btn-volver-memoria, 
-#btn-volver-cuentos {
+#btn-volver-cuentos,
+#btn-cambiar-usuario { /* AÑADIDO: btn-cambiar-usuario */
     background-color: #20B2AA; /* Verde Mar Brillante */
     box-shadow: 0 8px 0 #1B8581; /* Sombra oscura */
-    margin-top: 30px; /* Darle más espacio debajo de los elementos de juego */
+    margin-top: 30px; 
 }
 
 
@@ -115,22 +161,13 @@ button:active {
     transform: translateY(6px); /* El botón se hunde */
 }
 
-/* ******************************************************
- * AÑADIDO: Estilos de Opciones de Juego para Visibilidad
- * Las opciones usan botones que necesitan un color de fondo
- * y texto oscuro para contrastar con el fondo claro del juego.
- * Esto corrige el problema de la visibilidad.
- ****************************************************** */
+/* Estilos de Opciones de Juego */
 #opciones-container-vocales button,
 #opciones-container-memoria button,
 #opciones-container-cuentos button {
-    /* Texto oscuro para contraste */
-    color: var(--color-texto-oscuro); /* Cambia de blanco a #333333 */
-    /* Fondo con un color brillante y amigable para niños */
-    background-color: #FFD700; /* Amarillo Oro Brillante */
-    /* Sombra consistente y visible */
-    box-shadow: 0 8px 0 #C4A700; /* Sombra del Amarillo Oro */
-    /* Ajustar dimensiones para opciones, no botones de menú */
+    color: var(--color-texto-oscuro); 
+    background-color: #FFD700; 
+    box-shadow: 0 8px 0 #C4A700; 
     min-width: 100px;
     padding: 15px 25px; 
     font-size: 1.5em; 
@@ -139,30 +176,20 @@ button:active {
 #opciones-container-vocales button:active,
 #opciones-container-memoria button:active,
 #opciones-container-cuentos button:active {
-    /* Ajustar el efecto de presión para el nuevo color */
     box-shadow: 0 2px 0 #C4A700;
     transform: translateY(6px);
 }
 
 
 /* --- Contenedores de Juegos --- */
-.juego-container {
-    padding: 20px;
-    margin: 20px auto;
-    border: 5px dashed #FF4500; /* Borde punteado divertido */
-    border-radius: 30px;
-    background-color: #fff9e6; /* Fondo muy claro para el área de juego */
-}
-
-/* Aplicar la clase genérica a tus divs de juego (si es necesario) o usar los IDs existentes */
 #juego-vocales, #juego-imagenes, #juego-memoria-fonologica, #juego-cuentos {
-    /* Reutiliza el estilo base del contenedor si no quieres usar la clase */
-    /* Asegúrate de que tu JavaScript/HTML añada la clase 'juego-container' o usa los IDs */
     padding: 20px;
     margin: 20px auto;
     border: 5px dashed #FF4500;
     border-radius: 30px;
     background-color: #fff9e6;
+    max-width: 800px; /* Ancho máximo para tablets */
+    box-sizing: border-box;
 }
 
 /* --- Elementos de Juego (Opciones de Respuesta) --- */
@@ -176,17 +203,17 @@ button:active {
     margin-top: 20px;
 }
 
-/* Si las opciones son botones o divs con la clase 'opcion-juego' */
+/* (El resto de estilos de .opcion-juego, imágenes, mensajes, etc., se mantienen igual que tu original) */
 .opcion-juego {
     font-size: 3em;
     width: 80px;
     height: 80px;
-    line-height: 80px; /* Centrar texto verticalmente */
-    border-radius: 50%; /* Opciones circulares */
-    background-color: #FF8C00; /* Naranja brillante */
+    line-height: 80px;
+    border-radius: 50%;
+    background-color: #FF8C00;
     color: var(--color-texto-claro);
     font-weight: 900;
-    border: 5px solid #FFD700; /* Borde dorado */
+    border: 5px solid #FFD700;
     box-shadow: 0 6px 0 #CC7000;
     transition: all 0.1s;
     cursor: pointer;
@@ -197,18 +224,34 @@ button:active {
     transform: translateY(5px);
 }
 
-/* Estilo para las imágenes del juego */
 #imagen-container-vocales img, .imagen-juego img {
     max-width: 90%;
     max-height: 250px;
-    border: 10px solid #4682B4; /* Borde azul */
+    border: 10px solid #4682B4;
     border-radius: 20px;
     margin-bottom: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
+/* Contenedor de imágenes para Juego 2 (para que se vean bien en tablet) */
+#imagenes-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+#imagenes-container img {
+    border: 6px solid #4682B4;
+    border-radius: 15px;
+    transition: transform 0.2s;
+}
+#imagenes-container img:hover {
+    transform: scale(1.05);
+}
+
+
 /* --- Mensajes de Feedback (Correcto/Incorrecto) --- */
-#mensaje-vocales, .mensaje-feedback {
+#mensaje-vocales, #mensaje-imagenes, #mensaje-memoria, #mensaje-cuentos, .mensaje-feedback {
     font-size: 2.5em;
     font-weight: bold;
     margin-top: 20px;
@@ -217,19 +260,19 @@ button:active {
 }
 
 .correcto {
-    background-color: #E0FFE0; /* Verde muy claro */
-    color: #008000; /* Verde oscuro */
+    background-color: #E0FFE0;
+    color: #008000;
     border: 3px solid #008000;
 }
 
 .incorrecto {
-    background-color: #FFE0E0; /* Rojo muy claro */
-    color: #FF0000; /* Rojo oscuro */
+    background-color: #FFE0E0;
+    color: #FF0000;
     border: 3px solid #FF0000;
 }
 
 /* --- Puntaje --- */
-#puntaje-vocales, .puntaje {
+#puntaje-vocales, #puntaje-imagenes, #puntaje-memoria, #puntaje-cuentos, .puntaje {
     color: #8A2BE2; /* Azul violeta */
     font-size: 2em;
     font-weight: 900;
@@ -251,5 +294,12 @@ button:active {
         width: 60px;
         height: 60px;
         line-height: 60px;
+    }
+    .avatar-emoji {
+        font-size: 4em; /* Más pequeño en móviles */
+        padding: 15px;
+    }
+    #saludo-usuario {
+        font-size: 2.5em;
     }
 }

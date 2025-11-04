@@ -7,16 +7,33 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Juegos Educativos</h1>
-  <!-- Menú de selección -->
-  <div id="menu">
+
+  <div id="pantalla-seleccion-usuario">
+    <h1>¡Hola!</h1>
+    <h2>¿Quién eres?</h2>
+    <p>Elige tu imagen para jugar</p>
+    <div id="avatar-container">
+      <div class="avatar-emoji" data-id="sol">☀️</div>
+      <div class="avatar-emoji" data-id="luna">🌙</div>
+      <div class="avatar-emoji" data-id="estrella">⭐</div>
+      <div class="avatar-emoji" data-id="corazon">❤️</div>
+      <div class="avatar-emoji" data-id="auto">🚗</div>
+      <div class="avatar-emoji" data-id="flor">🌸</div>
+    </div>
+  </div>
+
+  <div id="menu" style="display:none;">
+    <div id="saludo-usuario"></div>
+    <h1>Juegos Educativos</h1>
     <p>Selecciona un juego:</p>
     <button id="btn-vocales">Aprender las Vocales</button>
     <button id="btn-imagenes">Identificar imágenes que empiecen por vocal</button>
     <button id="btn-memoria-fonologica">Memoria Fonológica (Sílabas y Rimas)</button>
     <button id="btn-cuentos">Cuentos Cortos con Preguntas</button>
+    
+    <button id="btn-cambiar-usuario">Cambiar de Usuario</button>
   </div>
-  <!-- Juego 1: Aprender las vocales -->
+
   <div id="juego-vocales" style="display:none;">
     <h2>Aprende las Vocales</h2>
     <p>Puntaje: <span id="puntaje-vocales">0</span></p>
@@ -26,7 +43,7 @@
     <div id="mensaje-vocales"></div>
     <button id="btn-volver-vocales">Volver al menú</button>
   </div>
-  <!-- Juego 2: Identificar imágenes que empiecen por vocal -->
+
   <div id="juego-imagenes" style="display:none;">
     <h2>Identifica imágenes que empiecen por la vocal</h2>
     <p>Puntaje: <span id="puntaje-imagenes">0</span></p>
