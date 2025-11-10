@@ -20,9 +20,9 @@ Este proyecto está construido utilizando las siguientes tecnologías:
 
 Este proyecto es desarrollado y mantenido por Marcelo y Francisca.
 
-* **Marcelo:** `[Link a la rama de Marcelo]`
-* **Francisca:** `[Link a la rama de Francisca]`
-
+* **[Rama de Marcelo](https://github.com/frcardemil/ABC-World/tree/marcelo)**
+* **[Rama de Francisca](https://github.com/frcardemil/ABC-World/tree/fran)**
+  
 ## Documentación
 
 Para una visión detallada de la arquitectura, las decisiones de diseño y los informes del proyecto (incluyendo informes de avance), por favor consulta nuestra carpeta de documentos:
