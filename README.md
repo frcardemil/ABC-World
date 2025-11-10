@@ -20,6 +20,8 @@ Este proyecto está construido utilizando las siguientes tecnologías:
 
 Este proyecto es desarrollado y mantenido por Marcelo y Francisca.
 
+Nuestro flujo de trabajo principal consistía en hacer cambios directamente a la rama `main`. También utilizamos ramas personales para probar funcionalidades de forma aislada antes de integrarlas.
+
 * **[Rama de Marcelo](https://github.com/frcardemil/ABC-World/tree/marcelo)**
 * **[Rama de Francisca](https://github.com/frcardemil/ABC-World/tree/fran)**
   
