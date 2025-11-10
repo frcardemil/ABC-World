@@ -27,6 +27,6 @@ Nuestro flujo de trabajo principal consistía en hacer cambios directamente a la
   
 ## Documentación
 
-Para una visión detallada de la arquitectura, las decisiones de diseño y los informes del proyecto (incluyendo informes de avance), por favor consulta nuestra carpeta de documentos:
+Para una visión detallada los informes del proyecto, incluyendo informes de avance, por favor consulta nuestra carpeta de documentos:
 
 * **[Documentos del Proyecto](./Documentos/)**
