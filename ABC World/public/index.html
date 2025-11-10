@@ -7,47 +7,45 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <h1>Juegos Educativos</h1>
 
   <div id="pantalla-seleccion-usuario">
-    <h1>¡Hola!</h1>
-    <h2>¿Quién eres?</h2>
-    <p>Elige tu imagen para jugar</p>
-    <div id="avatar-container">
-      <div class="avatar-emoji" data-id="sol">☀️</div>
-      <div class="avatar-emoji" data-id="luna">🌙</div>
-      <div class="avatar-emoji" data-id="estrella">⭐</div>
-      <div class="avatar-emoji" data-id="corazon">❤️</div>
-      <div class="avatar-emoji" data-id="auto">🚗</div>
-      <div class="avatar-emoji" data-id="flor">🌸</div>
-    </div>
+    <h2>¿Quién está jugando?</h2>
+    <p>Selecciona tu emoji para cargar tu progreso</p>
+    <div id="emoji-container">
+      </div>
   </div>
 
   <div id="menu" style="display:none;">
-    <div id="saludo-usuario"></div>
-    <h1>Juegos Educativos</h1>
     <p>Selecciona un juego:</p>
-    <button id="btn-vocales">Aprender las Vocales</button>
+    <p id="usuario-actual-display">Jugando como: <span></span></p> <button id="btn-vocales">Aprender las Vocales</button>
     <button id="btn-imagenes">Identificar imágenes que empiecen por vocal</button>
     <button id="btn-memoria-fonologica">Memoria Fonológica (Sílabas y Rimas)</button>
     <button id="btn-cuentos">Cuentos Cortos con Preguntas</button>
-    
-    <button id="btn-cambiar-usuario">Cambiar de Usuario</button>
-  </div>
+    <button id="btn-cambiar-usuario">Cambiar de Usuario</button> </div>
 
   <div id="juego-vocales" style="display:none;">
     <h2>Aprende las Vocales</h2>
-    <p>Puntaje: <span id="puntaje-vocales">0</span></p>
+    <div class="puntajes-container">
+      <p>Puntaje Actual: <span id="puntaje-vocales">0</span></p>
+      <p class="puntaje-historico">Puntaje Máximo: <span id="max-puntaje-vocales">0</span></p>
+      <p class="puntaje-historico">Errores: <span id="errores-vocales">0</span></p>
+    </div>
     <p>Selecciona la vocal que corresponde a la imagen</p>
     <div id="imagen-container-vocales"></div>
     <div id="opciones-container-vocales"></div>
     <div id="mensaje-vocales"></div>
-    <button id="btn-volver-vocales">Volver al menú</button>
+    <button id="btn-volver-vocales">Volver al menú</p>
   </div>
 
   <div id="juego-imagenes" style="display:none;">
     <h2>Identifica imágenes que empiecen por la vocal</h2>
-    <p>Puntaje: <span id="puntaje-imagenes">0</span></p>
-    <p>Selecciona la imagen que empieza por la vocal <span id="vocal-actual-imagenes"></span></p>
+    <div class="puntajes-container">
+      <p>Puntaje Actual: <span id="puntaje-imagenes">0</span></p>
+      <p class="puntaje-historico">Puntaje Máximo: <span id="max-puntaje-imagenes">0</span></p>
+      <p class="puntaje-historico">Errores: <span id="errores-imagenes">0</span></p>
+    </div>
+    <p>Selecciona todas las imagenes que tengan la vocal <span id="vocal-actual-imagenes"></span></p>
     <div id="imagenes-container"></div>
     <div id="mensaje-imagenes"></div>
     <button id="btn-volver-imagenes">Volver al menú</button>
@@ -55,7 +53,11 @@
 
   <div id="juego-memoria-fonologica" style="display:none;">
     <h2>Memoria Fonológica</h2>
-    <p>Puntaje: <span id="puntaje-memoria">0</span></p>
+    <div class="puntajes-container">
+      <p>Puntaje Actual: <span id="puntaje-memoria">0</span></p>
+      <p class="puntaje-historico">Puntaje Máximo: <span id="max-puntaje-memoria">0</span></p>
+      <p class="puntaje-historico">Errores: <span id="errores-memoria">0</span></p>
+    </div>
     <p id="instruccion-memoria">Escucha y cuenta las sílabas o encuentra la rima</p>
     <div id="opciones-container-memoria"></div>
     <div id="mensaje-memoria"></div>
@@ -64,7 +66,11 @@
     
   <div id="juego-cuentos" style="display:none;">
     <h2>Cuentos Cortos</h2>
-    <p>Puntaje: <span id="puntaje-cuentos">0</span></p>
+    <div class="puntajes-container">
+      <p>Puntaje Actual: <span id="puntaje-cuentos">0</span></p>
+      <p class="puntaje-historico">Puntaje Máximo: <span id="max-puntaje-cuentos">0</span></p>
+      <p class="puntaje-historico">Errores: <span id="errores-cuentos">0</span></p>
+    </div>
     <div id="cuento-container"></div>
     <div id="pregunta-container"></div>
     <div id="opciones-container-cuentos"></div>
