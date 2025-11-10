@@ -266,6 +266,7 @@ window.onload = () => {
     mostrarMenu();
   };
   document.getElementById('btn-volver-memoria').onclick = async () => { 
+    speechSynthesis.cancel();
     await guardarPuntaje('memoria', puntajeMemoria);
     mostrarMenu();
   };
