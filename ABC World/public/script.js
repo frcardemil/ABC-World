@@ -260,10 +260,12 @@ window.onload = () => {
     mostrarMenu();
   };
   document.getElementById('btn-volver-memoria').onclick = async () => { 
+    speechSynthesis.cancel();
     await guardarPuntaje('memoria', puntajeMemoria);
     mostrarMenu();
   };
   document.getElementById('btn-volver-cuentos').onclick = async () => { 
+    speechSynthesis.cancel();
     await guardarPuntaje('cuentos', puntajeCuentos);
     mostrarMenu();
   };
@@ -474,7 +476,7 @@ function validarRespuestaMemoria(respuesta) {
     document.getElementById('puntaje-memoria').textContent = puntajeMemoria;
     if (aciertosConsecutivosMemoria >= 5) nivelMemoria = 3;
     else if (aciertosConsecutivosMemoria >= 3) nivelMemoria = 2;
-    mensaje.textContent = '¡Correcto! 🎉';S
+    mensaje.textContent = '¡Correcto! 🎉';
     mensaje.style.color = 'green';
   } else {
     aciertosConsecutivosMemoria = 0;
