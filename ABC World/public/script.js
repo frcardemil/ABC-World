@@ -1,6 +1,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getFirestore, collection, addDoc, getDocs, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getAnalytics } from "firebase/analytics" ;
 
 const firebaseConfig = {
   apiKey: "AIzaSyCZ5EN7GX05_OCqePTt0NhbMp2XHtNSHvI",
@@ -639,3 +640,4 @@ function validarRespuestaCuentos(respuesta) {
   preguntaActualIndex++;
   setTimeout(mostrarPreguntaCuentos, 2000);
 }
+
