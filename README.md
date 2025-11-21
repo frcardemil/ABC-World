@@ -39,3 +39,4 @@ Nuestro flujo de trabajo principal consistía en hacer cambios directamente a la
 Para una visión detallada los informes del proyecto, incluyendo informes de avance, por favor consulta nuestra carpeta de documentos:
 
 * **[Documentos del Proyecto](./Documentos/)**
+* **[Link de Trello](https://trello.com/invite/b/68f91739708fa148dffc08fa/ATTI16d42d368a65ddb5dbbd4bf32fc0b21bF4A3EF95/abc-world)**
