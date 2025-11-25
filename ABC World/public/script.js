@@ -1,7 +1,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getFirestore, collection, addDoc, getDocs, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import { getAnalytics } from "firebase/analytics" ;
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCZ5EN7GX05_OCqePTt0NhbMp2XHtNSHvI",
@@ -16,7 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-const analytics = getAnalytics(app);
+
 
 let userId = null;
 
@@ -207,6 +207,14 @@ const cuentosAvanzado = [
       { pregunta: '¿Qué encontró el niño?', opciones: ['Un mapa', 'Un libro', 'Un juguete'], correcta: 'Un mapa' },
       { pregunta: '¿Dónde llegó?', opciones: ['A una cueva', 'A una casa', 'A un río'], correcta: 'A una cueva' }
     ]
+  },
+  {
+    titulo: 'El explorador Teo',
+    texto: 'El pequeño explorador, Teo, desafió al gigante de la montaña, quien gentilmente le ofreció un mapa estelar hacia la Luna de Caramelo.',
+    preguntas: [
+      {pregunta: '¿A quien desafio Teo?', opciones: ['Un gigante', 'Un león', 'Un caramelo'], correcta: 'Un gigante' },
+      {pregunta: '¿De que es la luna?', opciones: ['Caramelo', 'Estelar', 'Piedra'], correcta: 'Caramelo' }
+    ]
   }
 ];
 
@@ -235,6 +243,9 @@ let juegoVocalesCompletado = false;
 let juegoImagenesCompletado = false;
 let imagenesSeleccionadas = [];  
 let imagenesCorrectas = [];
+let juegoMemoriaCompletado = false;
+let juegoCuentosCompletado = false;
+let palabraUsadasMemoria = [];
 
 // Función para reproducir palabra con TTS (Juego 3)
 function reproducirAudioPalabra(palabra) {
@@ -482,7 +493,7 @@ function confirmarSeleccionImagenes() {
     
     if (puntajeImagenes >= 10) {
       juegoImagenesCompletado = true;
-      mensaje.textContent = '¡Juego completado! Has alcanzado 15 puntos. Puntaje final: ' + puntajeImagenes;
+      mensaje.textContent = '¡Juego completado! Has alcanzado 10 puntos. Puntaje final: ' + puntajeImagenes;
       mensaje.style.color = 'blue';
       document.getElementById('imagenes-container').innerHTML = '';
       document.getElementById('btn-confirmar-imagenes').style.display = 'none';
@@ -508,19 +519,33 @@ function confirmarSeleccionImagenes() {
 // --- juego 3: rimas y silabas ---
 function iniciarJuegoMemoria() {
   puntajeMemoria = 0;
+  juegoMemoriaCompletado = false;
+  palabraUsadasMemoria = [];
   document.getElementById('puntaje-memoria').textContent = puntajeMemoria;
   document.getElementById('menu').style.display = 'none';
   document.getElementById('juego-memoria-fonologica').style.display = 'block';
+  document.getElementById('btn-reproducir-palabra').onclick = () => {
+  if (datoActualMemoria) reproducirAudioPalabra(datoActualMemoria.palabra);
+  };
   
   
   nuevaRondaMemoria();
 }
 function nuevaRondaMemoria() {
+  if (juegoMemoriaCompletado)return;
   let datosActuales = datosMemoriaSimple;
   if (nivelMemoria === 2) datosActuales = datosMemoriaMedio;
   else if (nivelMemoria === 3) datosActuales = datosMemoriaAvanzado;
+
+  const datosDisponibles = datosActuales.filter(dato => !palabraUsadasMemoria.includes(dato.palabra));
+  if (datosDisponibles.length ==0){
+    palabraUsadasMemoria = [];
+    nuevaRondaMemoria();
+    return;   
+  }
   
-  datoActualMemoria = datosActuales[Math.floor(Math.random() * datosActuales.length)];
+  datoActualMemoria = datosDisponibles[Math.floor(Math.random() * datosDisponibles.length)];
+  palabraUsadasMemoria.push(datoActualMemoria.palabra);
   
   const opcionesContainer = document.getElementById('opciones-container-memoria');
   opcionesContainer.innerHTML = '';
@@ -559,6 +584,14 @@ function validarRespuestaMemoria(respuesta) {
     document.getElementById('puntaje-memoria').textContent = puntajeMemoria;
     if (aciertosConsecutivosMemoria >= 5) nivelMemoria = 3;
     else if (aciertosConsecutivosMemoria >= 3) nivelMemoria = 2;
+
+    if (puntajeMemoria >= 10) { 
+      juegoMemoriaCompletado = true;
+      mensaje.textContent = '¡Juego completado! Has alcanzado 10 puntos. Puntaje final: ' + puntajeMemoria;
+      mensaje.style.color = 'blue';
+      document.getElementById('opciones-container-memoria').innerHTML = '';
+      return;
+    }
     mensaje.textContent = '¡Correcto! 🎉';
     mensaje.style.color = 'green';
   } else {
@@ -575,6 +608,7 @@ function validarRespuestaMemoria(respuesta) {
 function iniciarJuegoCuentos() {
   puntajeCuentos = 0;
   preguntaActualIndex = 0;
+  juegoCuentosCompletado = false;
   document.getElementById('puntaje-cuentos').textContent = puntajeCuentos;
   document.getElementById('menu').style.display = 'none';
   document.getElementById('juego-cuentos').style.display = 'block';
@@ -629,6 +663,15 @@ function validarRespuestaCuentos(respuesta) {
     document.getElementById('puntaje-cuentos').textContent = puntajeCuentos;
     if (aciertosConsecutivosCuentos >= 4) nivelCuentos = 3;
     else if (aciertosConsecutivosCuentos >= 2) nivelCuentos = 2;
+    if (puntajeCuentos >= 10) {  
+      juegoCuentosCompletado = true;
+      mensaje.textContent = '¡Juego completado! Has alcanzado 10 puntos. Puntaje final: ' + puntajeCuentos;
+      mensaje.style.color = 'blue';
+      document.getElementById('opciones-container-cuentos').innerHTML = '';
+      document.getElementById('pregunta-container').innerHTML = '';
+      document.getElementById('cuento-container').innerHTML = '';
+      return;
+    }
     mensaje.textContent = '¡Correcto! 🎉';
     mensaje.style.color = 'green';
   } else {
