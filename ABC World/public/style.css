@@ -1,255 +1,76 @@
 /*
- * Diseño Colorido y Amigable para Niños (4-6 años)
- * Colores: Primarios y brillantes con esquinas muy redondeadas.
+ * Diseño Colorido con Bootstrap
  */
 
 :root {
-    --color-fondo-principal: #f6d365; /* Amarillo suave */
-    --color-fondo-secundario: #fda085; /* Naranja suave */
-    --color-texto-oscuro: #333333;
-    --color-texto-claro: #ffffff;
-    --color-sombra: #a87f2e; /* Sombra para botones (marrón-dorado) */
+    --color-fondo-principal: #f6d365;
+    --color-fondo-secundario: #fda085;
+    --font-main: 'Arial Rounded MT Bold', 'Arial', sans-serif;
 }
 
-/* --- Estilos Generales --- */
 body {
-    /* Fondo con un degradado de colores cálidos */
     background: linear-gradient(135deg, var(--color-fondo-principal) 0%, var(--color-fondo-secundario) 100%);
-    font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
-    text-align: center;
-    padding: 20px;
-    margin: 0;
-    color: var(--color-texto-oscuro);
+    font-family: var(--font-main);
     min-height: 100vh;
 }
 
-h1 {
-    color: #FF4500; /* Naranja rojizo brillante */
-    font-size: 3.5em;
-    margin-bottom: 0.5em;
-    /* Sombra de texto grande y colorida para un efecto "pop" */
-    text-shadow: 4px 4px 0 #fff, 6px 6px 0 #1E90FF; /* Blanco y azul brillante */
+/* Efectos 3D para menú */
+.game-menu-btn {
+    transition: all 0.2s ease;
+    border-bottom: 8px solid rgba(0,0,0,0.15) !important; 
+}
+.game-menu-btn:hover {
+    transform: translateY(-5px);
+    filter: brightness(1.1);
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+}
+.game-menu-btn:active {
+    transform: translateY(2px);
+    border-bottom: 2px solid rgba(0,0,0,0.15) !important;
 }
 
-h2 {
-    color: #32CD32; /* Verde Lima brillante */
-    font-size: 2.5em;
-    margin-top: 0.5em;
-    text-shadow: 2px 2px 0 #fff;
+/* Tarjetas */
+.game-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    max-width: 800px;
+    margin: 0 auto; 
 }
 
-p {
-    font-size: 1.8em;
-    color: var(--color-texto-oscuro);
-    font-weight: bold;
+/* Imágenes */
+.imagen-seleccionable {
+    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: white;
+    object-fit: contain;
+}
+.imagen-seleccionable:hover {
+    transform: scale(1.05);
+    z-index: 10;
+}
+.vocal-img-style {
+    max-height: 250px;
+    object-fit: contain;
+    background-color: white;
 }
 
-/* --- Contenedor del Menú Principal --- */
-#menu {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px; /* Espacio entre los botones */
-    padding: 30px;
-    background-color: rgba(255, 255, 255, 0.85); /* Fondo blanco semitransparente para destacar */
-    border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    max-width: 600px;
-    margin: 20px auto;
-}
-
-/* --- Botones Generales (Menú y Opciones) --- */
-button {
-    font-size: 2em; /* ¡Muy grandes! */
-    margin: 5px;
-    padding: 20px 40px;
-    cursor: pointer;
-    border: none;
-    border-radius: 50px; /* Súper redondeado */
-    color: var(--color-texto-claro);
-    font-weight: 900; /* Extra bold */
-    text-transform: uppercase;
-    transition: all 0.1s;
-    min-width: 250px;
-    letter-spacing: 1px;
-}
-
-/* Colores Específicos para Botones del Menú */
-#btn-vocales {
-    background-color: #FF69B4; /* Rosa Chicle */
-    box-shadow: 0 8px 0 #C4508A;
-}
-
-#btn-imagenes {
-    background-color: #1E90FF; /* Azul Intenso */
-    box-shadow: 0 8px 0 #156BB5;
-}
-
-#btn-memoria-fonologica {
-    background-color: #FFD700; /* Amarillo Oro */
-    box-shadow: 0 8px 0 #C4A700;
-}
-
-#btn-cuentos {
-    background-color: #BA55D3; /* Orquídea (Morado) */
-    box-shadow: 0 8px 0 #8C409F;
-}
-
-/* * AÑADIDO: Estilos para los botones "Volver al menú" en los juegos
- * Usamos un color distinto y brillante (Verde Mar) para alta visibilidad
- * en los fondos claros de las áreas de juego.
- */
-#btn-volver-vocales, 
-#btn-volver-imagenes, 
-#btn-volver-memoria, 
-#btn-volver-cuentos {
-    background-color: #20B2AA; /* Verde Mar Brillante */
-    box-shadow: 0 8px 0 #1B8581; /* Sombra oscura */
-    margin-top: 30px; /* Darle más espacio debajo de los elementos de juego */
-}
-
-
-/* Efecto de Presión (Click) */
-button:active {
-    box-shadow: 0 2px 0 var(--color-sombra);
-    transform: translateY(6px); /* El botón se hunde */
-}
-
-/* ******************************************************
- * AÑADIDO: Estilos de Opciones de Juego para Visibilidad
- * Las opciones usan botones que necesitan un color de fondo
- * y texto oscuro para contrastar con el fondo claro del juego.
- * Esto corrige el problema de la visibilidad.
- ****************************************************** */
-#opciones-container-vocales button,
-#opciones-container-memoria button,
-#opciones-container-cuentos button {
-    /* Texto oscuro para contraste */
-    color: var(--color-texto-oscuro); /* Cambia de blanco a #333333 */
-    /* Fondo con un color brillante y amigable para niños */
-    background-color: #FFD700; /* Amarillo Oro Brillante */
-    /* Sombra consistente y visible */
-    box-shadow: 0 8px 0 #C4A700; /* Sombra del Amarillo Oro */
-    /* Ajustar dimensiones para opciones, no botones de menú */
-    min-width: 100px;
-    padding: 15px 25px; 
-    font-size: 1.5em; 
-}
-
-#opciones-container-vocales button:active,
-#opciones-container-memoria button:active,
-#opciones-container-cuentos button:active {
-    /* Ajustar el efecto de presión para el nuevo color */
-    box-shadow: 0 2px 0 #C4A700;
-    transform: translateY(6px);
-}
-
-
-/* --- Contenedores de Juegos --- */
-.juego-container {
-    padding: 20px;
-    margin: 20px auto;
-    border: 5px dashed #FF4500; /* Borde punteado divertido */
-    border-radius: 30px;
-    background-color: #fff9e6; /* Fondo muy claro para el área de juego */
-}
-
-/* Aplicar la clase genérica a tus divs de juego (si es necesario) o usar los IDs existentes */
-#juego-vocales, #juego-imagenes, #juego-memoria-fonologica, #juego-cuentos {
-    /* Reutiliza el estilo base del contenedor si no quieres usar la clase */
-    /* Asegúrate de que tu JavaScript/HTML añada la clase 'juego-container' o usa los IDs */
-    padding: 20px;
-    margin: 20px auto;
-    border: 5px dashed #FF4500;
-    border-radius: 30px;
-    background-color: #fff9e6;
-}
-
-/* --- Elementos de Juego (Opciones de Respuesta) --- */
-
-/* Estilo para las opciones de vocal o imagen */
-#opciones-container-vocales, .opciones-juego {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-/* Si las opciones son botones o divs con la clase 'opcion-juego' */
-.opcion-juego {
-    font-size: 3em;
+/* Botones circulares */
+.btn-circulo {
     width: 80px;
     height: 80px;
-    line-height: 80px; /* Centrar texto verticalmente */
-    border-radius: 50%; /* Opciones circulares */
-    background-color: #FF8C00; /* Naranja brillante */
-    color: var(--color-texto-claro);
-    font-weight: 900;
-    border: 5px solid #FFD700; /* Borde dorado */
-    box-shadow: 0 6px 0 #CC7000;
-    transition: all 0.1s;
-    cursor: pointer;
+    font-size: 2rem;
+    border-radius: 50% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+}
+.btn-circulo:active {
+    box-shadow: none;
+    transform: translateY(4px);
 }
 
-.opcion-juego:active {
-    box-shadow: 0 1px 0 #CC7000;
-    transform: translateY(5px);
-}
-
-/* Estilo para las imágenes del juego */
-#imagen-container-vocales img, .imagen-juego img {
-    max-width: 90%;
-    max-height: 250px;
-    border: 10px solid #4682B4; /* Borde azul */
-    border-radius: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* --- Mensajes de Feedback (Correcto/Incorrecto) --- */
-#mensaje-vocales, .mensaje-feedback {
-    font-size: 2.5em;
-    font-weight: bold;
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 15px;
-}
-
-.correcto {
-    background-color: #E0FFE0; /* Verde muy claro */
-    color: #008000; /* Verde oscuro */
-    border: 3px solid #008000;
-}
-
-.incorrecto {
-    background-color: #FFE0E0; /* Rojo muy claro */
-    color: #FF0000; /* Rojo oscuro */
-    border: 3px solid #FF0000;
-}
-
-/* --- Puntaje --- */
-#puntaje-vocales, .puntaje {
-    color: #8A2BE2; /* Azul violeta */
-    font-size: 2em;
-    font-weight: 900;
-    text-shadow: 1px 1px 0 #fff;
-}
-
-/* --- Responsividad básica para pantallas pequeñas --- */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 2.5em;
-    }
-    button {
-        font-size: 1.5em;
-        padding: 15px 30px;
-        min-width: 90%;
-    }
-    .opcion-juego {
-        font-size: 2em;
-        width: 60px;
-        height: 60px;
-        line-height: 60px;
-    }
+@media (max-width: 576px) {
+    h1 { font-size: 2.5rem; }
+    .display-1 { font-size: 3rem; }
+    .h2 { font-size: 1.2rem; }
+    .game-card { padding: 1rem !important; }
 }

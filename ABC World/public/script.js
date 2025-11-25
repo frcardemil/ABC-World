@@ -1,7 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyCZ5EN7GX05_OCqePTt0NhbMp2XHtNSHvI",
@@ -17,7 +16,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-
 let userId = null;
 
 async function inicializarAuth() {
@@ -25,7 +23,7 @@ async function inicializarAuth() {
     await signInAnonymously(auth);
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        userId = user.uid;  // ID único para el usuario
+        userId = user.uid;  
         console.log('Usuario autenticado:', userId);
       }
     });
@@ -35,61 +33,56 @@ async function inicializarAuth() {
 }
 
 async function guardarPuntaje(juego, puntaje) {
-  if (!userId) return;  // No guardar si no hay usuario
+  if (!userId) return;
   try {
-    // Guardar en una colección "puntajes" con doc por usuario y juego
     await setDoc(doc(db, 'puntajes', userId), {
-      juego: juego,  // ej. 'vocales' o 'imagenes'
+      juego: juego,
       puntaje: puntaje,
       fecha: new Date().toISOString()
-    }, { merge: true });  // merge para actualizar si existe
-    console.log('Puntaje guardado:', puntaje);
+    }, { merge: true });
   } catch (error) {
     console.error('Error al guardar puntaje:', error);
   }
 }
 
-async function cargarPuntajeMaximo(juego) {
-  if (!userId) return 0;
-  try {
-    const docRef = doc(db, 'puntajes', userId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap.data().puntaje || 0;
-    }
-    return 0;
-  } catch (error) {
-    console.error('Error al cargar puntaje:', error);
-    return 0;
-  }
-}
-
-// Función para reproducir texto con TTS
+// --- TTS (Audio) ---
 function reproducirTTS(texto, velocidad = 0.8, vozSeleccionada = null) {
   if ('speechSynthesis' in window) {
     const utterance = new SpeechSynthesisUtterance(texto);
-    utterance.lang = 'es-MX';  // Idioma español (cambia a 'es-MX' para México, etc.)
-    utterance.rate = velocidad;  // Velocidad: 0.1 (lento) a 2.0 (rápido)
-    utterance.pitch = 1;  // Tono: 0 (grave) a 2 (agudo)
+    utterance.lang = 'es-MX';
+    utterance.rate = velocidad;
+    utterance.pitch = 1;
     
-    // Seleccionar voz (opcional)
-    if (vozSeleccionada) {
-      utterance.voice = vozSeleccionada;
-    } else {
-      // Usar la primera voz en español disponible
-      const voces = speechSynthesis.getVoices();
-      const vozEspanol = voces.find(voice => voice.lang.startsWith('es'));
-      if (vozEspanol) utterance.voice = vozEspanol;
-    }
+    const voces = speechSynthesis.getVoices();
+    const vozEspanol = voces.find(voice => voice.lang.startsWith('es'));
+    if (vozEspanol) utterance.voice = vozEspanol;
     
     speechSynthesis.speak(utterance);
-  } else {
-    console.log('TTS no soportado en este navegador');
   }
 }
 
+// Helper Visual Bootstrap
+function mostrarMensaje(idElemento, texto, tipo) {
+    const el = document.getElementById(idElemento);
+    el.textContent = texto;
+    el.style.display = 'block';
+    el.className = `alert mt-4 text-center fw-bold fs-4 animate__animated animate__fadeIn alert-${tipo}`;
+}
+function ocultarMensaje(idElemento) {
+    document.getElementById(idElemento).style.display = 'none';
+}
 
-// Datos para juego 1: vocales con imágenes
+// Variables para control de Temporizadores
+let timerAudio = null;
+let timerSiguiente = null;
+
+function limpiarTemporizadores() {
+  if (timerAudio) clearTimeout(timerAudio);
+  if (timerSiguiente) clearTimeout(timerSiguiente);
+  speechSynthesis.cancel(); 
+}
+
+// --- DATOS ---
 const vocales = [
   { letra: 'A', imagen: 'images/a.png' },
   { letra: 'E', imagen: 'images/e.png' },
@@ -98,22 +91,20 @@ const vocales = [
   { letra: 'U', imagen: 'images/u.png' },
 ];
 
-// Datos para juego 2: imágenes con palabra y vocal inicial
 const imagenesJuego2 = [
   { palabra: 'Araña', imagen: 'images/imagenesJuego2/arana.png', vocal: 'A' },
   { palabra: 'Avión', imagen: 'images/imagenesJuego2/avion.png', vocal: 'A' },
   { palabra: 'Elefante', imagen: 'images/imagenesJuego2/elefante.png', vocal: 'E' },
-  {palabra: 'Escoba', imagen: 'images/imagenesJuego2/escoba.png', vocal: 'E' },
+  { palabra: 'Escoba', imagen: 'images/imagenesJuego2/escoba.png', vocal: 'E' },
   { palabra: 'Isla', imagen: 'images/imagenesJuego2/isla.png', vocal: 'I' },
   { palabra: 'Iglú', imagen: 'images/imagenesJuego2/iglu.png', vocal : 'I' },
   { palabra: 'Oso', imagen: 'images/imagenesJuego2/oso.png', vocal: 'O' },
   { palabra: 'Ojo', imagen: 'images/imagenesJuego2/ojo.png', vocal: 'O' },
   { palabra: 'Uva', imagen: 'images/imagenesJuego2/uva.png', vocal: 'U' },
-  { palabra: 'Casa', imagen: 'images/imagenesJuego2/casa.png', vocal: 'A' }, // ejemplo extra que no empieza por vocal A
-  { palabra: 'Perro', imagen: 'images/imagenesJuego2/perro.png', vocal: 'E' }, // ejemplo extra
+  { palabra: 'Casa', imagen: 'images/imagenesJuego2/casa.png', vocal: 'A' },
+  { palabra: 'Perro', imagen: 'images/imagenesJuego2/perro.png', vocal: 'E' },
 ];
 
-// Datos para juego 3: memoria fonológica
 const datosMemoriaSimple = [
   { tipo: 'silabas', palabra: 'Casa', silabas: 2 },
   { tipo: 'silabas', palabra: 'Sol', silabas: 1},
@@ -159,7 +150,6 @@ const datosMemoriaAvanzado = [
   { tipo: 'rimas', palabra: 'Estrella', rimaCorrecta: 'Botella', opciones: ['Botella', 'León', 'Agua'] }
 ];
 
-// Datos para juego 4: cuentos cortos con preguntas
 const cuentosSimple = [
   {
     titulo: 'El Sombrero Rojo',
@@ -218,9 +208,7 @@ const cuentosAvanzado = [
   }
 ];
 
-
-
-// Variables para juegos
+// Variables
 let vocalActual = null;
 let puntajeVocales = 0;
 let vocalActualJuego2 = null;
@@ -247,44 +235,38 @@ let juegoMemoriaCompletado = false;
 let juegoCuentosCompletado = false;
 let palabraUsadasMemoria = [];
 
-// Función para reproducir palabra con TTS (Juego 3)
-function reproducirAudioPalabra(palabra) {
-  reproducirTTS(palabra, 0.6);  // Lento para claridad
-}
-// Función para reproducir cuento con TTS (Juego 4)
-function reproducirAudioCuento(textoCuento) {
-  reproducirTTS(textoCuento, 0.7);  // Moderado para narración
-}
-function reproducirAudioPregunta(textoPregunta) {
-  reproducirTTS(textoPregunta, 0.7);  // Misma velocidad que el cuento
-}
+function reproducirAudioPalabra(palabra) { reproducirTTS(palabra, 0.6); }
+function reproducirAudioCuento(textoCuento) { reproducirTTS(textoCuento, 0.7); }
+// Esta función ya no la usaremos directamente para preguntas, usaremos la lógica interna de mostrarPregunta
 
 window.onload = () => {
   inicializarAuth();
 
-  // Referencias a botones menú
-  document.getElementById('btn-vocales').onclick = () => iniciarJuegoVocales();
-  document.getElementById('btn-imagenes').onclick = () => iniciarJuegoImagenes();
-  document.getElementById('btn-memoria-fonologica').onclick = () => iniciarJuegoMemoria();
-  document.getElementById('btn-cuentos').onclick = () => iniciarJuegoCuentos(); 
+  document.getElementById('btn-vocales').onclick = iniciarJuegoVocales;
+  document.getElementById('btn-imagenes').onclick = iniciarJuegoImagenes;
+  document.getElementById('btn-memoria-fonologica').onclick = iniciarJuegoMemoria;
+  document.getElementById('btn-cuentos').onclick = iniciarJuegoCuentos; 
   
-  
+  // Botones VOLVER
   document.getElementById('btn-volver-vocales').onclick = async () => {
+    limpiarTemporizadores();
     await guardarPuntaje('vocales', puntajeVocales);
     mostrarMenu();
   };
   document.getElementById('btn-volver-imagenes').onclick = async () => {
-    document.getElementById('btn-confirmar-imagenes').style.display = 'none';
+    limpiarTemporizadores();
+    const btnConfirmar = document.getElementById('btn-confirmar-imagenes');
+    if(btnConfirmar) btnConfirmar.style.display = 'none';
     await guardarPuntaje('imagenes', puntajeImagenes);
     mostrarMenu();
   };
   document.getElementById('btn-volver-memoria').onclick = async () => { 
-    speechSynthesis.cancel();
+    limpiarTemporizadores();
     await guardarPuntaje('memoria', puntajeMemoria);
     mostrarMenu();
   };
   document.getElementById('btn-volver-cuentos').onclick = async () => { 
-    speechSynthesis.cancel();
+    limpiarTemporizadores();
     await guardarPuntaje('cuentos', puntajeCuentos);
     mostrarMenu();
   };
@@ -292,92 +274,80 @@ window.onload = () => {
   mostrarMenu();
 };
 
-// Mostrar solo el menú y ocultar juegos
 function mostrarMenu() {
-  document.getElementById('menu').style.display = 'block';
-  document.getElementById('juego-vocales').style.display = 'none';
-  document.getElementById('juego-imagenes').style.display = 'none';
-  document.getElementById('juego-memoria-fonologica').style.display = 'none';
-  document.getElementById('juego-cuentos').style.display = 'none';
+  const menu = document.getElementById('menu');
+  menu.classList.remove('d-none');
+  menu.classList.add('d-flex');
+  ['juego-vocales', 'juego-imagenes', 'juego-memoria-fonologica', 'juego-cuentos'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
 }
 
-// --- Juego 1: Aprender las vocales ---
+function mostrarJuego(idJuego) {
+  const menu = document.getElementById('menu');
+  menu.classList.remove('d-flex');
+  menu.classList.add('d-none');
+  const juegoDiv = document.getElementById(idJuego);
+  juegoDiv.style.display = 'block';
+  window.scrollTo(0, 0);
+}
 
+// --- Juego 1 ---
 function iniciarJuegoVocales() {
-  puntajeVocales = 0;
-  aciertosConsecutivosVocales = 0;
-  opcionesVocales = 5;
-  vocalesMostradas = [];  // Reset
-  juegoVocalesCompletado = false;
+  puntajeVocales = 0; aciertosConsecutivosVocales = 0; opcionesVocales = 5; vocalesMostradas = []; juegoVocalesCompletado = false;
   document.getElementById('puntaje-vocales').textContent = puntajeVocales;
-  document.getElementById('menu').style.display = 'none';
-  document.getElementById('juego-vocales').style.display = 'block';
-
-
+  mostrarJuego('juego-vocales');
   nuevaRondaVocales();
 }
 
 function nuevaRondaVocales() {
-  if (juegoVocalesCompletado) return;  // No continuar si terminó
-  
-  // Filtrar vocales no mostradas
+  if (juegoVocalesCompletado) return;
   const vocalesDisponibles = vocales.filter(v => !vocalesMostradas.includes(v.letra));
   
   if (vocalesDisponibles.length === 0) {
-    // Todas las vocales mostradas: finalizar juego
     juegoVocalesCompletado = true;
-    document.getElementById('mensaje-vocales').textContent = '¡Juego completado! Has aprendido todas las vocales. Puntaje final: ' + puntajeVocales;
-    document.getElementById('mensaje-vocales').style.color = 'blue';
-    // Ocultar opciones y mostrar solo el botón volver
+    mostrarMensaje('mensaje-vocales', '¡Juego completado! 🎉 Puntaje final: ' + puntajeVocales, 'primary');
     document.getElementById('opciones-container-vocales').innerHTML = '';
     document.getElementById('imagen-container-vocales').innerHTML = '';
     return;
   }
 
-// Seleccionar una vocal aleatoria no mostrada
   vocalActual = vocalesDisponibles[Math.floor(Math.random() * vocalesDisponibles.length)];
-  vocalesMostradas.push(vocalActual.letra);  // Marcar como mostrada
+  vocalesMostradas.push(vocalActual.letra);
   
-  // Mostrar imagen
-  const imagenContainer = document.getElementById('imagen-container-vocales');
-  imagenContainer.innerHTML = `<img src="${vocalActual.imagen}" alt="Vocal" />`;
+  document.getElementById('imagen-container-vocales').innerHTML = 
+      `<img src="${vocalActual.imagen}" alt="Vocal" class="img-fluid rounded border border-4 border-warning shadow vocal-img-style" />`;
   
-  // Mostrar opciones
   const opcionesContainer = document.getElementById('opciones-container-vocales');
   opcionesContainer.innerHTML = '';
   
-  // Seleccionar letras basadas en dificultad
-  let letrasSeleccionadas = [vocalActual.letra];  // Incluir la correcta
-  const letrasDisponibles = vocales.map(v => v.letra).filter(l => l !== vocalActual.letra);  // Otras letras
+  let letrasSeleccionadas = [vocalActual.letra];
+  const letrasDisponibles = vocales.map(v => v.letra).filter(l => l !== vocalActual.letra);
   
   while (letrasSeleccionadas.length < opcionesVocales && letrasDisponibles.length > 0) {
     const randomIndex = Math.floor(Math.random() * letrasDisponibles.length);
-    const letraRandom = letrasDisponibles.splice(randomIndex, 1)[0];  // Remover para evitar duplicados
-    letrasSeleccionadas.push(letraRandom);
+    letrasSeleccionadas.push(letrasDisponibles.splice(randomIndex, 1)[0]);
   }
+  letrasSeleccionadas.sort(() => Math.random() - 0.5);
   
-  letrasSeleccionadas.sort(() => Math.random() - 0.5);  // Mezclar
-  
-  // Crear botones con las letras seleccionadas
   letrasSeleccionadas.forEach(letra => {
-    const vocalObj = vocales.find(v => v.letra === letra);  // Encontrar el objeto vocal
     const btn = document.createElement('button');
-    btn.textContent = vocalObj.letra;
-    btn.style.fontSize = '2em';
-    btn.style.margin = '5px';
-    btn.onclick = () => validarRespuestaVocales(vocalObj.letra);
+    btn.textContent = letra;
+    btn.className = 'btn btn-warning m-2 shadow fw-bold';
+    btn.style.fontSize = '2.5rem';
+    btn.style.width = '80px';
+    btn.style.height = '80px';
+    btn.onclick = () => validarRespuestaVocales(letra);
     opcionesContainer.appendChild(btn);
   });
   
-  document.getElementById('mensaje-vocales').textContent = '';
-  setTimeout(() => reproducirSonidoVocal(vocalActual.letra), 500);
+  ocultarMensaje('mensaje-vocales');
+  timerAudio = setTimeout(() => reproducirTTS(vocalActual.letra), 500);
 }
 
 async function validarRespuestaVocales(letraSeleccionada) {
-  if (juegoVocalesCompletado) return;  // No validar si terminó
-  
+  if (juegoVocalesCompletado) return;
   const esCorrecto = letraSeleccionada.toUpperCase() === vocalActual.letra.toUpperCase();
-  const mensaje = document.getElementById('mensaje-vocales');
   
   if (esCorrecto) {
     puntajeVocales++;
@@ -385,38 +355,35 @@ async function validarRespuestaVocales(letraSeleccionada) {
     document.getElementById('puntaje-vocales').textContent = puntajeVocales;
     if (aciertosConsecutivosVocales >= 5) opcionesVocales = Math.max(2, opcionesVocales);
     else if (aciertosConsecutivosVocales >= 3) opcionesVocales = 3;
-    mensaje.textContent = '¡Correcto! 🎉';
-    mensaje.style.color = 'green';
+    mostrarMensaje('mensaje-vocales', '¡Correcto! 🎉', 'success');
   } else {
     aciertosConsecutivosVocales = 0;
     opcionesVocales = 5;
-    mensaje.textContent = `Incorrecto. La respuesta correcta es ${vocalActual.letra}`;
-    mensaje.style.color = 'red';
+    mostrarMensaje('mensaje-vocales', `Incorrecto. La respuesta correcta es ${vocalActual.letra}`, 'danger');
   }
-  
-  setTimeout(nuevaRondaVocales, 2000);
+  timerSiguiente = setTimeout(nuevaRondaVocales, 2000);
 }
 
-
-// --- Juego 2: Identificar imágenes que empiecen por vocal ---
-
+// --- Juego 2 ---
 function iniciarJuegoImagenes() {
-  puntajeImagenes = 0;
-  aciertosConsecutivosImagenes = 0;
-  numImagenes = 4;
-  juegoImagenesCompletado = false;
-  imagenesSeleccionadas = [];
-  imagenesCorrectas = [];
+  puntajeImagenes = 0; aciertosConsecutivosImagenes = 0; numImagenes = 4; juegoImagenesCompletado = false;
+  imagenesSeleccionadas = []; imagenesCorrectas = [];
   document.getElementById('puntaje-imagenes').textContent = puntajeImagenes;
-  document.getElementById('menu').style.display = 'none';
-  document.getElementById('juego-imagenes').style.display = 'block';
+  mostrarJuego('juego-imagenes');
+  
   const container = document.getElementById('juego-imagenes');
-  if (!document.getElementById('btn-confirmar-imagenes')) {
-    const btnConfirmar = document.createElement('button');
+  let btnConfirmar = document.getElementById('btn-confirmar-imagenes');
+  
+  if (!btnConfirmar) {
+    btnConfirmar = document.createElement('button');
     btnConfirmar.id = 'btn-confirmar-imagenes';
-    btnConfirmar.textContent = 'Confirmar Selección';
+    btnConfirmar.textContent = '✅ Confirmar Selección';
+    btnConfirmar.className = 'btn btn-success btn-lg w-100 mt-3 shadow fw-bold rounded-pill animate__animated animate__fadeInUp';
     btnConfirmar.onclick = () => confirmarSeleccionImagenes();
-    container.appendChild(btnConfirmar);
+    const btnVolver = document.getElementById('btn-volver-imagenes').parentNode;
+    container.insertBefore(btnConfirmar, btnVolver);
+  } else {
+    btnConfirmar.style.display = 'block';
   }
   
   nuevaRondaImagenes();
@@ -424,7 +391,6 @@ function iniciarJuegoImagenes() {
 
 function nuevaRondaImagenes() {
   if (juegoImagenesCompletado) return;
-  // Elegir una vocal aleatoria
   vocalActualJuego2 = vocales[Math.floor(Math.random() * vocales.length)].letra;
   document.getElementById('vocal-actual-imagenes').textContent = vocalActualJuego2;
   const imagenesContainer = document.getElementById('imagenes-container');
@@ -432,55 +398,49 @@ function nuevaRondaImagenes() {
   imagenesSeleccionadas = [];
   imagenesCorrectas = imagenesJuego2.filter(img => img.vocal === vocalActualJuego2);
 
-  // Mostrar imágenes mezcladas (aumentar numImagenes para más desafío)
-  const opciones = [...imagenesCorrectas];  // Incluir todas las correctas
+  const opciones = [...imagenesCorrectas];
   const incorrectas = imagenesJuego2.filter(img => img.vocal !== vocalActualJuego2);
   while (opciones.length < numImagenes && incorrectas.length > 0) {
     const randomIndex = Math.floor(Math.random() * incorrectas.length);
     opciones.push(incorrectas.splice(randomIndex, 1)[0]);
   }
-
   opciones.sort(() => Math.random() - 0.5);
 
   opciones.forEach(imgObj => {
     const imgElem = document.createElement('img');
     imgElem.src = imgObj.imagen;
     imgElem.alt = imgObj.palabra;
-    imgElem.title = imgObj.palabra;
-    imgElem.style.margin = '10px';
+    imgElem.className = 'imagen-seleccionable border border-4 border-light rounded shadow-sm m-2';
     imgElem.style.width = '120px';
     imgElem.style.height = '120px';
     imgElem.style.cursor = 'pointer';
-    imgElem.style.border = '3px solid transparent';  // Inicial sin borde
     imgElem.onclick = () => toggleSeleccionImagen(imgElem, imgObj);
     imagenesContainer.appendChild(imgElem);
   });
 
-  document.getElementById('mensaje-imagenes').textContent = `Selecciona todas las imágenes que empiecen por la vocal ${vocalActualJuego2}`;
-  setTimeout(() => reproducirSonidoVocal(vocalActualJuego2), 500);
+  ocultarMensaje('mensaje-imagenes');
+  timerAudio = setTimeout(() => reproducirTTS(vocalActualJuego2), 500);
 }
-
 
 function toggleSeleccionImagen(imgElem, imgObj) {
   const index = imagenesSeleccionadas.findIndex(sel => sel.palabra === imgObj.palabra);
   if (index > -1) {
-    // Desmarcar
     imagenesSeleccionadas.splice(index, 1);
-    imgElem.style.border = '3px solid transparent';
+    imgElem.classList.remove('border-success');
+    imgElem.classList.add('border-light');
+    imgElem.style.transform = 'scale(1)';
   } else {
-    // Marcar
     imagenesSeleccionadas.push(imgObj);
-    imgElem.style.border = '3px solid green';
+    imgElem.classList.remove('border-light');
+    imgElem.classList.add('border-success'); 
+    imgElem.style.transform = 'scale(1.1)';
   }
 }
 
 function confirmarSeleccionImagenes() {
   if (juegoImagenesCompletado) return;
-  
-  const mensaje = document.getElementById('mensaje-imagenes');
   const seleccionadasPalabras = imagenesSeleccionadas.map(sel => sel.palabra);
   const correctasPalabras = imagenesCorrectas.map(corr => corr.palabra);
-  
   const esCorrecto = seleccionadasPalabras.length === correctasPalabras.length &&
                      seleccionadasPalabras.every(pal => correctasPalabras.includes(pal));
   
@@ -493,52 +453,45 @@ function confirmarSeleccionImagenes() {
     
     if (puntajeImagenes >= 10) {
       juegoImagenesCompletado = true;
-      mensaje.textContent = '¡Juego completado! Has alcanzado 10 puntos. Puntaje final: ' + puntajeImagenes;
-      mensaje.style.color = 'blue';
+      mostrarMensaje('mensaje-imagenes', '¡Juego completado! 🎉 Puntaje final: ' + puntajeImagenes, 'primary');
       document.getElementById('imagenes-container').innerHTML = '';
       document.getElementById('btn-confirmar-imagenes').style.display = 'none';
       return;
     }
-  
-    mensaje.textContent = '¡Correcto! Todas las imágenes seleccionadas son correctas. 🎉';
-    mensaje.style.color = 'green';
+    mostrarMensaje('mensaje-imagenes', '¡Correcto! 🎉', 'success');
   } else {
     aciertosConsecutivosImagenes = 0;
     numImagenes = 4;
-    mensaje.textContent = 'Incorrecto. Revisa tu selección.';
-    mensaje.style.color = 'red';
+    mostrarMensaje('mensaje-imagenes', 'Incorrecto. Revisa tu selección.', 'danger');
   }
-  
-  setTimeout(() => {
+  timerSiguiente = setTimeout(() => {
     imagenesSeleccionadas = [];
     nuevaRondaImagenes();
   }, 2000);
 }
 
-
-// --- juego 3: rimas y silabas ---
+// --- Juego 3 ---
 function iniciarJuegoMemoria() {
   puntajeMemoria = 0;
   juegoMemoriaCompletado = false;
   palabraUsadasMemoria = [];
   document.getElementById('puntaje-memoria').textContent = puntajeMemoria;
-  document.getElementById('menu').style.display = 'none';
-  document.getElementById('juego-memoria-fonologica').style.display = 'block';
+  mostrarJuego('juego-memoria-fonologica');
+  
   document.getElementById('btn-reproducir-palabra').onclick = () => {
-  if (datoActualMemoria) reproducirAudioPalabra(datoActualMemoria.palabra);
+    if (datoActualMemoria) reproducirAudioPalabra(datoActualMemoria.palabra);
   };
-  
-  
   nuevaRondaMemoria();
 }
+
 function nuevaRondaMemoria() {
-  if (juegoMemoriaCompletado)return;
+  if (juegoMemoriaCompletado) return;
   let datosActuales = datosMemoriaSimple;
   if (nivelMemoria === 2) datosActuales = datosMemoriaMedio;
   else if (nivelMemoria === 3) datosActuales = datosMemoriaAvanzado;
 
   const datosDisponibles = datosActuales.filter(dato => !palabraUsadasMemoria.includes(dato.palabra));
-  if (datosDisponibles.length ==0){
+  if (datosDisponibles.length == 0){
     palabraUsadasMemoria = [];
     nuevaRondaMemoria();
     return;   
@@ -549,10 +502,12 @@ function nuevaRondaMemoria() {
   
   const opcionesContainer = document.getElementById('opciones-container-memoria');
   opcionesContainer.innerHTML = '';
+  
   if (datoActualMemoria.tipo === 'silabas') {
     [1,2, 3, 4, 5].forEach(num => {
       const btn = document.createElement('button');
       btn.textContent = num;
+      btn.className = 'btn btn-primary btn-circulo shadow fw-bold m-2';
       btn.onclick = () => validarRespuestaMemoria(num);
       opcionesContainer.appendChild(btn);
     });
@@ -560,14 +515,14 @@ function nuevaRondaMemoria() {
     datoActualMemoria.opciones.forEach(opcion => {
       const btn = document.createElement('button');
       btn.textContent = opcion;
+      btn.className = 'btn btn-primary m-2 shadow fw-bold fs-5 px-4 py-3 rounded-4';
       btn.onclick = () => validarRespuestaMemoria(opcion);
       opcionesContainer.appendChild(btn);
     });
  }
-  document.getElementById('mensaje-memoria').textContent = '';
-  setTimeout(() => reproducirAudioPalabra(datoActualMemoria.palabra), 500);
+  ocultarMensaje('mensaje-memoria');
+  timerAudio = setTimeout(() => reproducirAudioPalabra(datoActualMemoria.palabra), 500);
 }
-
 
 function validarRespuestaMemoria(respuesta) {
   let esCorrecto = false;
@@ -577,7 +532,6 @@ function validarRespuestaMemoria(respuesta) {
     esCorrecto = respuesta === datoActualMemoria.rimaCorrecta;  
   }
   
-  const mensaje = document.getElementById('mensaje-memoria');
   if (esCorrecto) {
     puntajeMemoria++;
     aciertosConsecutivosMemoria++;
@@ -587,35 +541,34 @@ function validarRespuestaMemoria(respuesta) {
 
     if (puntajeMemoria >= 10) { 
       juegoMemoriaCompletado = true;
-      mensaje.textContent = '¡Juego completado! Has alcanzado 10 puntos. Puntaje final: ' + puntajeMemoria;
-      mensaje.style.color = 'blue';
+      mostrarMensaje('mensaje-memoria', '¡Juego completado! 🎉 Puntaje final: ' + puntajeMemoria, 'primary');
       document.getElementById('opciones-container-memoria').innerHTML = '';
       return;
     }
-    mensaje.textContent = '¡Correcto! 🎉';
-    mensaje.style.color = 'green';
+    mostrarMensaje('mensaje-memoria', '¡Correcto! 🎉', 'success');
   } else {
     aciertosConsecutivosMemoria = 0;
-    nivelMemoria = 1;  // Reset
-    mensaje.textContent = 'Incorrecto. Intenta de nuevo.';
-    mensaje.style.color = 'red';
+    nivelMemoria = 1;
+    mostrarMensaje('mensaje-memoria', 'Incorrecto. Intenta de nuevo.', 'danger');
   }
-  
-  setTimeout(nuevaRondaMemoria, 2000);
+  timerSiguiente = setTimeout(nuevaRondaMemoria, 2000);
 }
 
-// --- Juego 4: Cuentos Cortos ---
+// --- Juego 4 ---
 function iniciarJuegoCuentos() {
   puntajeCuentos = 0;
   preguntaActualIndex = 0;
   juegoCuentosCompletado = false;
   document.getElementById('puntaje-cuentos').textContent = puntajeCuentos;
-  document.getElementById('menu').style.display = 'none';
-  document.getElementById('juego-cuentos').style.display = 'block';
+  mostrarJuego('juego-cuentos');
   
+  document.getElementById('btn-reproducir-cuento').onclick = () => {
+    if(cuentoActual) reproducirAudioCuento(cuentoActual.texto);
+  };
   
   nuevaRondaCuentos();
 }
+
 function nuevaRondaCuentos() {
   let cuentosActuales = cuentosSimple;
   if (nivelCuentos === 2) cuentosActuales = cuentosMedio;
@@ -624,15 +577,17 @@ function nuevaRondaCuentos() {
   cuentoActual = cuentosActuales[Math.floor(Math.random() * cuentosActuales.length)];
   preguntaActualIndex = 0;
   
-  document.getElementById('cuento-container').innerHTML = `<h3>${cuentoActual.titulo}</h3><p>${cuentoActual.texto}</p>`;
+  document.getElementById('cuento-container').innerHTML = `<h3 class="text-danger mb-3 fw-bold">${cuentoActual.titulo}</h3><p class="fs-4">${cuentoActual.texto}</p>`;
   
-  setTimeout(() => reproducirAudioCuento(cuentoActual.texto), 500);
+  timerAudio = setTimeout(() => reproducirAudioCuento(cuentoActual.texto), 500);
   mostrarPreguntaCuentos();
 }
+
+// *** AQUÍ ESTÁ EL CAMBIO CLAVE ***
 function mostrarPreguntaCuentos() {
   if (preguntaActualIndex >= cuentoActual.preguntas.length) {
-    document.getElementById('mensaje-cuentos').textContent = '¡Cuento completado! Puntaje: ' + puntajeCuentos;
-    setTimeout(nuevaRondaCuentos, 3000);
+    mostrarMensaje('mensaje-cuentos', '¡Cuento completado! Puntaje: ' + puntajeCuentos, 'success');
+    timerSiguiente = setTimeout(nuevaRondaCuentos, 3000);
     return;
   }
   const pregunta = cuentoActual.preguntas[preguntaActualIndex];
@@ -643,46 +598,56 @@ function mostrarPreguntaCuentos() {
   pregunta.opciones.forEach(opcion => {
     const btn = document.createElement('button');
     btn.textContent = opcion;
+    btn.className = 'btn btn-outline-primary btn-lg m-2 fw-bold border-3 rounded-pill';
     btn.onclick = () => validarRespuestaCuentos(opcion);
     opcionesContainer.appendChild(btn);
   });
 
-  document.getElementById('mensaje-cuentos').textContent = '';
-  setTimeout(() => reproducirAudioPregunta(pregunta.pregunta), 500);
+  ocultarMensaje('mensaje-cuentos');
+  
+  // LEEMOS LA PREGUNTA Y LUEGO LAS OPCIONES
+  // Creamos un texto único combinando todo
+  const textoOpciones = pregunta.opciones.join('. '); 
+  const textoCompleto = `${pregunta.pregunta}. ${textoOpciones}`;
+  
+  // Usamos timerAudio para gestionar el retraso, así si el usuario sale, se cancela
+  timerAudio = setTimeout(() => reproducirTTS(textoCompleto, 0.7), 500);
 }
+
 function validarRespuestaCuentos(respuesta) {
-  if (!cuentoActual || preguntaActualIndex >= cuentoActual.preguntas.length) return;  // Seguridad
-  
+  if (!cuentoActual || preguntaActualIndex >= cuentoActual.preguntas.length) return;
   const pregunta = cuentoActual.preguntas[preguntaActualIndex];
-  const esCorrecto = respuesta === pregunta.correcta;  // Comparación string
+  const esCorrecto = respuesta === pregunta.correcta;
   
-  const mensaje = document.getElementById('mensaje-cuentos');
+  let textoMensaje = '';
+  
   if (esCorrecto) {
     puntajeCuentos++;
     aciertosConsecutivosCuentos++;
     document.getElementById('puntaje-cuentos').textContent = puntajeCuentos;
     if (aciertosConsecutivosCuentos >= 4) nivelCuentos = 3;
     else if (aciertosConsecutivosCuentos >= 2) nivelCuentos = 2;
+    
+    textoMensaje = '¡Correcto! ¡Muy bien!'; 
+    
     if (puntajeCuentos >= 10) {  
       juegoCuentosCompletado = true;
-      mensaje.textContent = '¡Juego completado! Has alcanzado 10 puntos. Puntaje final: ' + puntajeCuentos;
-      mensaje.style.color = 'blue';
+      mostrarMensaje('mensaje-cuentos', '¡Juego completado! 🎉 Puntaje final: ' + puntajeCuentos, 'primary');
       document.getElementById('opciones-container-cuentos').innerHTML = '';
       document.getElementById('pregunta-container').innerHTML = '';
       document.getElementById('cuento-container').innerHTML = '';
       return;
     }
-    mensaje.textContent = '¡Correcto! 🎉';
-    mensaje.style.color = 'green';
+    mostrarMensaje('mensaje-cuentos', textoMensaje, 'success');
+    reproducirTTS(textoMensaje); 
   } else {
     aciertosConsecutivosCuentos = 0;
-    nivelCuentos--; // Reset
-    mensaje.textContent = `Incorrecto. La respuesta correcta es: ${pregunta.correcta}`;
-    mensaje.style.color = 'red';
+    nivelCuentos--; 
+    textoMensaje = `Incorrecto. La respuesta correcta es: ${pregunta.correcta}`;
+    mostrarMensaje('mensaje-cuentos', textoMensaje, 'danger');
+    reproducirTTS(textoMensaje); 
   }
   
   preguntaActualIndex++;
-  setTimeout(mostrarPreguntaCuentos, 2000);
+  timerSiguiente = setTimeout(mostrarPreguntaCuentos, 2500); 
 }
-
-
